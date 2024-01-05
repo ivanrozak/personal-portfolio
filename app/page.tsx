@@ -160,7 +160,7 @@ const Home = () => {
               />
               <div>
                 <p>Fullstack Engineer</p>
-                <p className="text-second">Daruma</p>
+                <p className="text-second">Nashta Global Utama</p>
               </div>
             </div>
             <time className="text-second">2021-2022</time>
