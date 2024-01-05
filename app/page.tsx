@@ -40,7 +40,7 @@ const Home = () => {
         </div>
       </div>
       <div className="flex flex-col gap-8">
-        <p>Latest Projects</p>
+        <p className="text-second">Latest Projects</p>
         <div className="flex flex-col gap-16">
           <div className="flex gap-8 flex-col md:flex-row">
             <a className="md:w-2/5" href="https://daruma.co.id" target="_blank">
@@ -104,6 +104,59 @@ const Home = () => {
         <Link className="text-second underline" href="/projects">
           See All
         </Link>
+      </div>
+      <div className="flex flex-col gap-8">
+        <p className="text-second">Working Experience</p>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <NextImage
+                src="/static/yesdok.jpeg"
+                width={54}
+                height={54}
+                className="rounded-full object-cover object-center border"
+                alt="daruma"
+              />
+              <div>
+                <p>Front End Engineer</p>
+                <p className="text-second">YesDok</p>
+              </div>
+            </div>
+            <time className="text-second">2022 - Present</time>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <NextImage
+                src="/static/daruma.jpg"
+                width={54}
+                height={54}
+                className="rounded-full object-cover object-center border"
+                alt="daruma"
+              />
+              <div>
+                <p>Front End Engineer</p>
+                <p className="text-second">Daruma (freelance)</p>
+              </div>
+            </div>
+            <time className="text-second">2023</time>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <NextImage
+                src="/static/nashta.jpg"
+                width={54}
+                height={54}
+                className="rounded-full object-cover object-center border"
+                alt="daruma"
+              />
+              <div>
+                <p>Fullstack Engineer</p>
+                <p className="text-second">Daruma</p>
+              </div>
+            </div>
+            <time className="text-second">2021-2022</time>
+          </div>
+        </div>
       </div>
     </div>
   );

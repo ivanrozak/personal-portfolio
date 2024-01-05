@@ -5,13 +5,14 @@
 body {
   color: #202020;
 }
-
 .text-second {
   color: #646464;
 }
-
 .profile-bg {
   background-color: #e8e8e8;
+}
+.link-container {
+  @apply rounded-lg bg-[#F0F0F0] p-6 text-inherit;
 }
 
 [data-theme="dark"] {
@@ -23,5 +24,8 @@ body {
   }
   .profile-bg {
     background-color: #2a2a2a;
+  }
+  .link-container {
+    @apply rounded-lg bg-[#222222] p-6 text-inherit flex justify-between items-center;
   }
 }

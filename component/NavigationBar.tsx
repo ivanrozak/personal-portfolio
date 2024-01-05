@@ -26,7 +26,7 @@ export default function NavigationBar() {
         </Link>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex" justify="center">
+      <NavbarContent justify="center">
         <NavbarItem>
           <Button
             as={Link}
@@ -60,12 +60,12 @@ export default function NavigationBar() {
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
-        <NavbarItem className="sm:hidden">
+        {/* <NavbarItem className="sm:hidden">
           <NavbarMenuToggle />
-        </NavbarItem>
+        </NavbarItem> */}
       </NavbarContent>
 
-      <NavbarMenu>
+      {/* <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
@@ -84,7 +84,7 @@ export default function NavigationBar() {
             </Link>
           </NavbarMenuItem>
         ))}
-      </NavbarMenu>
+      </NavbarMenu> */}
     </Navbar>
   );
 }
