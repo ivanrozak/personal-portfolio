@@ -29,3 +29,7 @@ body {
     @apply rounded-lg bg-[#222222] p-6 text-inherit flex justify-between items-center;
   }
 }
+
+.animate-in {
+  animation-delay: calc(var(--index) * 130ms);
+}

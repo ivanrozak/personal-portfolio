@@ -5,7 +5,10 @@ import React from "react";
 const Home = () => {
   return (
     <div className="flex flex-col gap-24">
-      <div className="flex flex-col gap-8">
+      <div
+        className="flex flex-col gap-8 animate-in"
+        style={{ "--index": 1 } as React.CSSProperties}
+      >
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Ivan Rozak</h1>
           <p className="text-second">I write code and creating things.</p>
@@ -39,7 +42,10 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <div className="flex flex-col gap-8">
+      <div
+        className="flex flex-col gap-8 animate-in"
+        style={{ "--index": 2 } as React.CSSProperties}
+      >
         <p className="text-second">Latest Projects</p>
         <div className="flex flex-col gap-16">
           <div className="flex gap-8 flex-col md:flex-row">
@@ -105,7 +111,10 @@ const Home = () => {
           See All
         </Link>
       </div>
-      <div className="flex flex-col gap-8">
+      <div
+        className="flex flex-col gap-8 animate-in"
+        style={{ "--index": 3 } as React.CSSProperties}
+      >
         <p className="text-second">Working Experience</p>
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">

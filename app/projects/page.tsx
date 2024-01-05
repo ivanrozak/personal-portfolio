@@ -4,7 +4,10 @@ import React from "react";
 const ProjectPage = () => {
   return (
     <div className="flex flex-col gap-24">
-      <div className="flex flex-col gap-8">
+      <div
+        className="flex flex-col gap-8 animate-in"
+        style={{ "--index": 1 } as React.CSSProperties}
+      >
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
           <p className="text-second">
@@ -13,7 +16,10 @@ const ProjectPage = () => {
         </div>
       </div>
       <div className="flex flex-col gap-16">
-        <div className="flex gap-8 flex-col md:flex-row">
+        <div
+          className="flex gap-8 flex-col md:flex-row animate-in"
+          style={{ "--index": 2 } as React.CSSProperties}
+        >
           <a className="md:w-2/5" href="https://daruma.co.id" target="_blank">
             <Image
               src="/static/mockup_daruma.jpg"
@@ -42,7 +48,10 @@ const ProjectPage = () => {
             </Link>
           </div>
         </div>
-        <div className="flex gap-8 flex-col md:flex-row">
+        <div
+          className="flex gap-8 flex-col md:flex-row animate-in"
+          style={{ "--index": 3 } as React.CSSProperties}
+        >
           <a className="md:w-2/5" href="https://yesdok.com" target="_blank">
             <Image
               src="/static/mockup_yesdok.jpg"
@@ -71,7 +80,10 @@ const ProjectPage = () => {
             </Link>
           </div>
         </div>
-        <div className="flex gap-8 flex-col md:flex-row">
+        <div
+          className="flex gap-8 flex-col md:flex-row animate-in"
+          style={{ "--index": 4 } as React.CSSProperties}
+        >
           <a className="md:w-2/5" href="https://sign-it.id" target="_blank">
             <Image
               src="/static/mockup_signit.jpg"

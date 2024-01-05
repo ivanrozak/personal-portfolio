@@ -12,7 +12,10 @@ import React from "react";
 const AboutPage = () => {
   return (
     <div>
-      <div>
+      <div
+        className="animate-in"
+        style={{ "--index": 1 } as React.CSSProperties}
+      >
         <Image
           src="/static/profile.png"
           width={400}
@@ -31,7 +34,10 @@ const AboutPage = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-4 mt-24">
+      <div
+        className="flex flex-col gap-4 mt-24 animate-in"
+        style={{ "--index": 2 } as React.CSSProperties}
+      >
         <Link className="link-container" href="mailto:ivanrozack@gmail.com">
           <div className="flex items-center gap-4">
             <Email className="w-5 h-5" />
