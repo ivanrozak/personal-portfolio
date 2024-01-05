@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: #202020;
+}
+
+.text-second {
+  color: #646464;
+}
+
+.profile-bg {
+  background-color: #e8e8e8;
+}
+
+[data-theme="dark"] {
+  body {
+    color: #eeeeee;
+  }
+  .text-second {
+    color: #b4b4b4;
+  }
+  .profile-bg {
+    background-color: #2a2a2a;
+  }
+}
