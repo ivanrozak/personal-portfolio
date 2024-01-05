@@ -16,10 +16,10 @@ export default function ThemeSwitcher() {
   if (!mounted) return null;
 
   const changeTheme = () => {
-    if (theme === "dark") {
-      setTheme("light");
-    } else {
+    if (theme === "light") {
       setTheme("dark");
+    } else {
+      setTheme("light");
     }
   };
 
@@ -30,7 +30,7 @@ export default function ThemeSwitcher() {
       radius="full"
       onClick={() => changeTheme()}
     >
-      {theme === "dark" ? <MoonIcon /> : <SunIcon />}
+      {theme === "light" ? <SunIcon /> : <MoonIcon />}
     </Button>
   );
 }
