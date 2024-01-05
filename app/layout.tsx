@@ -3,11 +3,11 @@ import { Inter } from "next/font/google";
 import "./globals.scss";
 import Provider from "./provider";
 import NavigationBar from "@/component/NavigationBar";
-import Footer from "@/component/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ivan-rozak.vercel.app"),
   title: "Home | Ivan Rozak",
   description:
     "I am a full-stack software engineer who basically just enjoys creating things.",
@@ -59,7 +59,6 @@ export default function RootLayout({
         <Provider>
           <NavigationBar />
           <div className="max-w-3xl mx-auto px-6 py-12">{children}</div>
-          <Footer />
         </Provider>
       </body>
     </html>
