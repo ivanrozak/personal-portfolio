@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.scss";
 import Provider from "./provider";
 import NavigationBar from "@/component/NavigationBar";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -61,6 +62,7 @@ export default function RootLayout({
           <div className="max-w-3xl mx-auto px-6 py-12">{children}</div>
         </Provider>
       </body>
+      <GoogleTagManager gtmId="G-998STYP66L" />
     </html>
   );
 }
