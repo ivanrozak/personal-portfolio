@@ -2,10 +2,10 @@ import { createClient } from "contentful";
 
 const useContentful = () => {
   const client = createClient({
-    space: "u1dczeiyhyif",
-    accessToken: "ZD8ZViPVoA4AsY78pxtnTB8U_n0MXooR4YpIvOBaA6Q",
-    environment: "master",
-    host: "https://preview.contentful.com",
+    space: process.env.CONTENTFUL_SPACE_ID!,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN!,
+    environment: process.env.CONTENTFUL_ENVIRONMENT!,
+    host: process.env.CONTENTFUL_HOST!,
   });
 
   const getArticles = async () => {
