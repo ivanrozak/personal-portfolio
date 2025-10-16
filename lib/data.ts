@@ -15,20 +15,20 @@ export interface Experience {
 
 export const projects: Project[] = [
   {
-    title: "Geolitix",
-    year: "2024",
-    description:
-      "Developing cloud-based software for near surface and GPR data analysis. Process large datasets from any GPR instrument on any computer with a browser.",
-    image: "/static/mockup_geolitix.jpg",
-    url: "https://geolitix.com",
-  },
-  {
     title: "Ground Radar",
     year: "2025",
     description:
       "Building ground penetrating radar (GPR) technology platform for deep mineral exploration and geotechnical applications using UltraGPR technology.",
     image: "/static/mockup_groundradar.jpg",
     url: "https://groundradar.com",
+  },
+  {
+    title: "Geolitix",
+    year: "2024",
+    description:
+      "Developing cloud-based software for near surface and GPR data analysis. Process large datasets from any GPR instrument on any computer with a browser.",
+    image: "/static/mockup_geolitix.jpg",
+    url: "https://geolitix.com",
   },
   {
     title: "Daruma B2B E-Commerce",
