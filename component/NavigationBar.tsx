@@ -11,18 +11,26 @@ import {
   NavbarMenuItem,
 } from "@nextui-org/react";
 import ThemeSwitcher from "./ThemeSwicther";
-import { BrandIcon } from "./icons";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export default function NavigationBar() {
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
   const menuItems = ["About", "Blog", "Projects"];
 
   return (
     <Navbar classNames={{ wrapper: "max-w-3xl" }}>
       <NavbarContent justify="start">
         <Link href="/" className="text-inherit">
-          <BrandIcon />
+          <Image
+            src="/main_icon.webp"
+            alt="Ivan Rozak"
+            width={32}
+            height={32}
+            style={{ filter: resolvedTheme === "dark" ? "invert(1)" : "none" }}
+          />
         </Link>
       </NavbarContent>
 
