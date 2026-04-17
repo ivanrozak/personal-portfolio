@@ -6,19 +6,13 @@ import {
   NavbarItem,
   Link,
   Button,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
 } from "@nextui-org/react";
 import ThemeSwitcher from "./ThemeSwicther";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 
 export default function NavigationBar() {
   const pathname = usePathname();
-  const { resolvedTheme } = useTheme();
-  const menuItems = ["About", "Blog", "Projects"];
 
   return (
     <Navbar classNames={{ wrapper: "max-w-3xl" }}>
@@ -29,7 +23,8 @@ export default function NavigationBar() {
             alt="Ivan Rozak"
             width={32}
             height={32}
-            style={{ filter: resolvedTheme === "dark" ? "invert(1)" : "none" }}
+            className="nav-logo shrink-0"
+            style={{ minWidth: 32, minHeight: 32 }}
           />
         </Link>
       </NavbarContent>
