@@ -1,90 +1,44 @@
 "use client";
 import React from "react";
-import {
-  Navbar,
-  NavbarContent,
-  NavbarItem,
-  Link,
-  Button,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-} from "@nextui-org/react";
+import Link from "next/link";
 import ThemeSwitcher from "./ThemeSwicther";
 import { BrandIcon } from "./icons";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { href: "/about", label: "About" },
+  { href: "/blog", label: "Blog" },
+  { href: "/projects", label: "Projects" },
+];
 
 export default function NavigationBar() {
   const pathname = usePathname();
-  const menuItems = ["About", "Blog", "Projects"];
 
   return (
-    <Navbar classNames={{ wrapper: "max-w-3xl" }}>
-      <NavbarContent justify="start">
+    <nav className="sticky top-0 z-50 w-full border-b border-black/10 dark:border-white/10 bg-white/80 dark:bg-black/80 backdrop-blur-sm">
+      <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="text-inherit">
           <BrandIcon />
         </Link>
-      </NavbarContent>
-
-      <NavbarContent justify="center">
-        <NavbarItem>
-          <Button
-            as={Link}
-            href="/about"
-            variant={pathname === "/about" ? "solid" : "light"}
-          >
-            About
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            href="/blog"
-            variant={pathname === "/blog" ? "solid" : "light"}
-          >
-            Blog
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            href="/projects"
-            variant={pathname === "/projects" ? "solid" : "light"}
-          >
-            Projects
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
-
-      <NavbarContent justify="end">
-        <NavbarItem>
-          <ThemeSwitcher />
-        </NavbarItem>
-        {/* <NavbarItem className="sm:hidden">
-          <NavbarMenuToggle />
-        </NavbarItem> */}
-      </NavbarContent>
-
-      {/* <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+        <div className="flex gap-1">
+          {navItems.map(({ href, label }) => (
             <Link
-              className="w-full"
-              color={
-                index === 2
-                  ? "warning"
-                  : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
-              }
-              href="#"
-              size="lg"
+              key={href}
+              href={href}
+              className={cn(
+                "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                pathname === href
+                  ? "bg-foreground text-background"
+                  : "hover:bg-accent"
+              )}
             >
-              {item}
+              {label}
             </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu> */}
-    </Navbar>
+          ))}
+        </div>
+        <ThemeSwitcher />
+      </div>
+    </nav>
   );
 }

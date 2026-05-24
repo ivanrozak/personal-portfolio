@@ -1,6 +1,7 @@
-import { Image, Link } from "@nextui-org/react";
+import Link from "next/link";
 import React from "react";
 import { projects } from "@/lib/data";
+import { ArrowLink } from "@/component/icons";
 
 const ProjectPage = () => {
   return (
@@ -23,13 +24,16 @@ const ProjectPage = () => {
             className="flex gap-8 flex-col md:flex-row animate-in"
             style={{ "--index": index + 2 } as React.CSSProperties}
           >
-            <a className="md:w-2/5" href={project.url} target="_blank">
-              <Image
+            <a
+              className="md:w-2/5 overflow-hidden rounded-xl"
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
                 src={project.image}
-                className="aspect-video w-full"
+                className="aspect-video w-full object-cover hover:scale-105 transition-transform duration-300"
                 alt={project.title}
-                isBlurred
-                isZoomed
               />
             </a>
             <div className="flex flex-col gap-4 md:w-3/5">
@@ -38,14 +42,15 @@ const ProjectPage = () => {
                 <time className="text-second"> · {project.year}</time>
               </div>
               <p className="text-second">{project.description}</p>
-              <Link
-                className="text-second"
-                showAnchorIcon
+              <a
+                className="text-second flex items-center gap-1 hover:underline"
                 href={project.url}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 App preview
-              </Link>
+                <ArrowLink className="w-4 h-4" />
+              </a>
             </div>
           </div>
         ))}

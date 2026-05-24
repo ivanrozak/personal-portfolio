@@ -1,7 +1,8 @@
-import { Image, Link } from "@nextui-org/react";
-import NextImage from "next/image";
+import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import { projects, experiences } from "@/lib/data";
+import { ArrowLink } from "@/component/icons";
 
 const Home = () => {
   const latestProjects = projects.slice(0, 2);
@@ -16,7 +17,7 @@ const Home = () => {
           <p className="text-second">I write code and creating things.</p>
         </div>
         <div className="flex gap-4 flex-col sm:flex-row">
-          <NextImage
+          <Image
             src="/static/profile.png"
             width={400}
             height={400}
@@ -31,19 +32,25 @@ const Home = () => {
           </p>
         </div>
         <div className="flex gap-4">
-          <Link
-            className="text-second"
+          <a
+            className="text-second flex items-center gap-1 hover:underline"
             href="mailto:ivanrozack@gmail.com"
-            isExternal
-            showAnchorIcon
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Email me
-          </Link>
-          <Link className="text-second" showAnchorIcon href="/about">
+            <ArrowLink className="w-4 h-4" />
+          </a>
+          <Link
+            className="text-second flex items-center gap-1 hover:underline"
+            href="/about"
+          >
             More ways to connect
+            <ArrowLink className="w-4 h-4" />
           </Link>
         </div>
       </div>
+
       <div
         className="flex flex-col gap-8 animate-in"
         style={{ "--index": 2 } as React.CSSProperties}
@@ -51,14 +58,20 @@ const Home = () => {
         <p className="text-second">Latest Projects</p>
         <div className="flex flex-col gap-16">
           {latestProjects.map((project) => (
-            <div key={project.title} className="flex gap-8 flex-col md:flex-row">
-              <a className="md:w-2/5" href={project.url} target="_blank">
-                <Image
+            <div
+              key={project.title}
+              className="flex gap-8 flex-col md:flex-row"
+            >
+              <a
+                className="md:w-2/5 overflow-hidden rounded-xl"
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
                   src={project.image}
-                  className="aspect-video w-full"
+                  className="aspect-video w-full object-cover hover:scale-105 transition-transform duration-300"
                   alt={project.title}
-                  isBlurred
-                  isZoomed
                 />
               </a>
               <div className="flex flex-col gap-4 md:w-3/5">
@@ -67,14 +80,15 @@ const Home = () => {
                   <time className="text-second"> · {project.year}</time>
                 </div>
                 <p className="text-second">{project.description}</p>
-                <Link
-                  className="text-second"
-                  showAnchorIcon
+                <a
+                  className="text-second flex items-center gap-1 hover:underline"
                   href={project.url}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   App preview
-                </Link>
+                  <ArrowLink className="w-4 h-4" />
+                </a>
               </div>
             </div>
           ))}
@@ -83,6 +97,7 @@ const Home = () => {
           See All
         </Link>
       </div>
+
       <div
         className="flex flex-col gap-8 animate-in"
         style={{ "--index": 3 } as React.CSSProperties}
@@ -90,9 +105,12 @@ const Home = () => {
         <p className="text-second">Working Experience</p>
         <div className="flex flex-col gap-4">
           {experiences.map((experience) => (
-            <div key={experience.company} className="flex items-center justify-between">
+            <div
+              key={experience.company}
+              className="flex items-center justify-between"
+            >
               <div className="flex items-center gap-4">
-                <NextImage
+                <Image
                   src={experience.logo}
                   width={54}
                   height={54}

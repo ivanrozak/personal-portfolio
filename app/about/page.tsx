@@ -5,7 +5,7 @@ import {
   Instagram,
   LinkedIn,
 } from "@/component/icons";
-import { Link } from "@nextui-org/react";
+import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 
@@ -38,40 +38,49 @@ const AboutPage = () => {
         className="flex flex-col gap-4 mt-24 animate-in"
         style={{ "--index": 2 } as React.CSSProperties}
       >
-        <Link className="link-container" href="mailto:ivanrozack@gmail.com">
+        <a className="link-container" href="mailto:ivanrozack@gmail.com">
           <div className="flex items-center gap-4">
             <Email className="w-5 h-5" />
             Email
           </div>
           <ArrowLink className="w-5 h-5" />
-        </Link>
-        <Link
+        </a>
+        <a
           className="link-container"
           href="https://www.linkedin.com/in/ivan-rozak/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <div className="flex items-center gap-4">
             <LinkedIn className="w-5 h-5" />
             LinkedIn
           </div>
           <ArrowLink className="w-5 h-5" />
-        </Link>
-        <Link className="link-container" href="https://github.com/ivanrozak/">
+        </a>
+        <a
+          className="link-container"
+          href="https://github.com/ivanrozak/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <div className="flex items-center gap-4">
             <Github className="w-5 h-5" />
             Github
           </div>
           <ArrowLink className="w-5 h-5" />
-        </Link>
-        <Link
+        </a>
+        <a
           className="link-container"
           href="https://www.instagram.com/ivanrozak"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <div className="flex items-center gap-4">
             <Instagram className="w-5 h-5" />
             Instagram
           </div>
           <ArrowLink className="w-5 h-5" />
-        </Link>
+        </a>
       </div>
     </div>
   );
