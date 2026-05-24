@@ -4,53 +4,84 @@ import React from "react";
 import { projects, experiences } from "@/lib/data";
 import { ArrowLink } from "@/component/icons";
 
+const techStack = [
+  "Next.js",
+  "TypeScript",
+  "React",
+  "Node.js",
+  "Tailwind CSS",
+  "PostgreSQL",
+];
+
 const Home = () => {
   const latestProjects = projects.slice(0, 2);
   return (
     <div className="flex flex-col gap-24">
+      {/* Hero */}
       <div
         className="flex flex-col gap-8 animate-in"
         style={{ "--index": 1 } as React.CSSProperties}
       >
-        <div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+            </span>
+            <span className="text-sm text-second">Open to opportunities</span>
+          </div>
           <h1 className="text-3xl font-bold tracking-tight">Ivan Rozak</h1>
-          <p className="text-second">I write code and creating things.</p>
+          <p className="text-second">
+            Fullstack Developer. I turn ideas into working software.
+          </p>
         </div>
         <div className="flex gap-4 flex-col sm:flex-row">
           <Image
             src="/static/profile.png"
             width={400}
             height={400}
-            className="w-[95px] h-[95px] rounded-full profile-bg"
+            className="w-[95px] h-[95px] rounded-full profile-bg shrink-0"
             alt="profile picture"
           />
-          <p>
-            Hi, I'm Ivan Rozak, a Fullstack Developer based in Jakarta -
-            Indonesia. <br /> I love crafting both frontend interfaces and
-            backend systems to create seamless digital experiences. <br /> Let's
-            chat about bringing your ideas to life through code!
+          <p className="text-[15px] leading-relaxed">
+            Hi, I'm Ivan — a Fullstack Developer based in Jakarta, Indonesia
+            with 4+ years of experience shipping web products used by real
+            users. I've worked on everything from telemedicine platforms to B2B
+            e-commerce and geoscience tooling. I care about clean code,
+            good UX, and building things that actually solve problems.
           </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {techStack.map((tech) => (
+            <span
+              key={tech}
+              className="text-xs px-3 py-1 rounded-full bg-secondary text-secondary-foreground"
+            >
+              {tech}
+            </span>
+          ))}
         </div>
         <div className="flex gap-4">
           <a
-            className="text-second flex items-center gap-1 hover:underline"
+            className="text-second flex items-center gap-1 hover:underline text-sm"
             href="mailto:ivanrozack@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             Email me
-            <ArrowLink className="w-4 h-4" />
+            <ArrowLink className="w-3.5 h-3.5" />
           </a>
           <Link
-            className="text-second flex items-center gap-1 hover:underline"
+            className="text-second flex items-center gap-1 hover:underline text-sm"
             href="/about"
           >
             More ways to connect
-            <ArrowLink className="w-4 h-4" />
+            <ArrowLink className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
 
+      {/* Latest Projects */}
       <div
         className="flex flex-col gap-8 animate-in"
         style={{ "--index": 2 } as React.CSSProperties}
@@ -74,55 +105,91 @@ const Home = () => {
                   alt={project.title}
                 />
               </a>
-              <div className="flex flex-col gap-4 md:w-3/5">
-                <div className="flex gap-2">
+              <div className="flex flex-col gap-3 md:w-3/5">
+                <div className="flex gap-2 items-baseline">
                   <h5 className="font-medium">{project.title}</h5>
-                  <time className="text-second"> · {project.year}</time>
+                  <time className="text-second text-sm"> · {project.year}</time>
                 </div>
-                <p className="text-second">{project.description}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tech.slice(0, 3).map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs px-2.5 py-0.5 rounded-full bg-secondary text-secondary-foreground"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-second text-sm">{project.description}</p>
                 <a
-                  className="text-second flex items-center gap-1 hover:underline"
+                  className="text-second flex items-center gap-1 hover:underline text-sm"
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  App preview
-                  <ArrowLink className="w-4 h-4" />
+                  Live preview
+                  <ArrowLink className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
           ))}
         </div>
-        <Link className="text-second underline" href="/projects">
-          See All
+        <Link className="text-second underline text-sm" href="/projects">
+          See all projects →
         </Link>
       </div>
 
+      {/* Experience */}
       <div
         className="flex flex-col gap-8 animate-in"
         style={{ "--index": 3 } as React.CSSProperties}
       >
         <p className="text-second">Working Experience</p>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
           {experiences.map((experience) => (
-            <div
-              key={experience.company}
-              className="flex items-center justify-between"
-            >
-              <div className="flex items-center gap-4">
-                <Image
-                  src={experience.logo}
-                  width={54}
-                  height={54}
-                  className="rounded-full object-cover object-center border"
-                  alt={experience.company}
-                />
-                <div>
-                  <p>{experience.position}</p>
-                  <p className="text-second">{experience.company}</p>
+            <div key={experience.company} className="flex gap-4">
+              <Image
+                src={experience.logo}
+                width={42}
+                height={42}
+                className="rounded-full object-cover object-center border shrink-0 mt-0.5 w-[42px] h-[42px]"
+                alt={experience.company}
+              />
+              <div className="flex flex-col gap-1 flex-1">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-medium text-sm">{experience.position}</p>
+                    <p className="text-second text-sm">
+                      {experience.company}
+                      {experience.type === "freelance" && (
+                        <span className="ml-1.5 text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                          freelance
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  <time className="text-second text-sm shrink-0">
+                    {experience.period}
+                  </time>
                 </div>
+                {experience.description && (
+                  <p className="text-second text-sm mt-1">
+                    {experience.description}
+                  </p>
+                )}
+                {experience.tech && (
+                  <div className="flex flex-wrap gap-1.5 mt-1">
+                    {experience.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
-              <time className="text-second">{experience.period}</time>
             </div>
           ))}
         </div>
