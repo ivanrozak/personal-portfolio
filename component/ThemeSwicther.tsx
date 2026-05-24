@@ -13,7 +13,7 @@ export default function ThemeSwitcher() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) return <div className="h-10 w-10 rounded-full bg-accent animate-pulse" />;
 
   return (
     <Button
