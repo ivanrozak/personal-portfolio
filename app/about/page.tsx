@@ -10,10 +10,12 @@ import React from "react";
 import { education } from "@/lib/data";
 
 const skills = {
-  Frontend: ["Next.js", "React", "TypeScript", "JavaScript", "Tailwind CSS", "Framer Motion", "HTML/CSS"],
-  Backend: ["Node.js", "Express.js", "NestJS", "REST API", "WebSocket"],
-  Database: ["PostgreSQL", "MongoDB", "Redis", "Prisma"],
-  "Tools & DevOps": ["Git", "Docker", "Vercel", "Figma", "Postman"],
+  Frontend: ["Next.js", "React", "Nuxt.js", "Vue", "React Native", "Angular"],
+  Backend: ["NestJS", "Node.js", "Express.js", "Hono"],
+  Languages: ["TypeScript", "JavaScript"],
+  "Realtime Systems": ["WebRTC", "LiveKit", "WebSocket"],
+  "Database & Infra": ["PostgreSQL", "MySQL", "Redis", "Docker", "Linux VPS", "Dokploy", "AWS S3", "GCP", "AWS Amplify", "Vercel"],
+  "Testing & Tools": ["Git", "Jest"],
 };
 
 const AboutPage = () => {
@@ -35,22 +37,20 @@ const AboutPage = () => {
           <h1 className="text-3xl font-bold tracking-tight">Ivan Rozak</h1>
           <div className="flex flex-col gap-3 text-[15px] leading-relaxed max-w-xl">
             <p>
-              I'm a Fullstack Developer based in Jakarta, Indonesia with 4+
-              years of experience building web products. I've shipped production
-              apps across industries — telemedicine, B2B e-commerce, geoscience,
-              and document management — always with a focus on clean code and
-              practical UX.
+              I'm a Fullstack Engineer based in Jakarta, Indonesia with 4+
+              years of experience building scalable web applications across
+              healthcare, government, and B2B industries.
             </p>
             <p>
-              On the frontend, I primarily work with Next.js and TypeScript. On
-              the backend, I'm comfortable with Node.js, building REST APIs, and
-              working with relational databases. I enjoy working across the full
-              stack and taking ownership of features end to end.
+              My primary stack is Nuxt.js/Vue.js and Next.js/React on the
+              frontend, NestJS and Node.js on the backend, with real-time
+              experience using WebRTC and LiveKit.
             </p>
             <p>
-              Outside of work, I'm always tinkering — whether it's a side
-              project, exploring a new tool, or writing about what I've learned.
-              Currently open to new opportunities.
+              I enjoy taking full ownership of features — from architecture
+              decisions to production deployment. Outside of client work, I'm
+              building independent products and always looking for the next
+              interesting problem to solve.
             </p>
           </div>
         </div>
@@ -65,7 +65,7 @@ const AboutPage = () => {
         <div className="flex flex-col gap-4">
           {Object.entries(skills).map(([category, items]) => (
             <div key={category} className="flex gap-4 items-start">
-              <span className="text-second text-sm w-28 shrink-0 pt-0.5">
+              <span className="text-second text-sm w-32 shrink-0 pt-0.5">
                 {category}
               </span>
               <div className="flex flex-wrap gap-1.5">
@@ -92,11 +92,11 @@ const AboutPage = () => {
           <h2 className="font-semibold">Education</h2>
           <div className="flex flex-col gap-4">
             {education.map((edu) => (
-              <div key={edu.school} className="flex justify-between items-start">
+              <div key={edu.school} className="flex justify-between items-start gap-4">
                 <div>
                   <p className="font-medium text-sm">{edu.degree}</p>
                   <p className="text-second text-sm">
-                    {edu.major} · {edu.school}
+                    {edu.school}
                   </p>
                 </div>
                 <time className="text-second text-sm shrink-0">{edu.period}</time>
@@ -109,7 +109,7 @@ const AboutPage = () => {
       {/* Contact */}
       <div
         className="flex flex-col gap-4 animate-in"
-        style={{ "--index": education.length > 0 ? 4 : 3 } as React.CSSProperties}
+        style={{ "--index": 4 } as React.CSSProperties}
       >
         <h2 className="font-semibold">Connect</h2>
         <div className="flex flex-col gap-3">

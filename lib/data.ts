@@ -15,7 +15,7 @@ export interface Project {
 export interface Experience {
   position: string;
   company: string;
-  logo: string;
+  logo?: string;
   period: string;
   type?: "fulltime" | "freelance" | "contract";
   description?: string;
@@ -31,13 +31,57 @@ export interface Education {
 
 export const projects: Project[] = [
   {
+    title: "Yuk Puncak",
+    year: "2026",
+    category: "experiment",
+    role: "Solo Engineer",
+    tech: ["Next.js", "Hono", "React Native", "PostgreSQL", "Redis", "Dokploy"],
+    description:
+      "Villa booking and property management platform built entirely solo — admin panel, management panel, customer web, Android mobile app (internal testing), backend API, and self-hosted infrastructure via Dokploy.",
+    image: "/static/mockup_yukpuncak.jpg",
+    url: "https://yukpuncak.com",
+  },
+  {
+    title: "Lumina",
+    year: "2025",
+    category: "experiment",
+    role: "Solo Engineer",
+    tech: ["Next.js", "LiveKit", "PostgreSQL", "S3"],
+    description:
+      "Video conferencing platform with organization and member management. Users can create orgs, invite members, and host meetings. Built solo with a self-hosted LiveKit media server and S3 file storage.",
+    image: "/static/mockup_lumina.jpg",
+    url: "https://lumina.inaplux.com",
+  },
+  {
+    title: "Rintisan Landing Page",
+    year: "2023",
+    category: "professional",
+    role: "Frontend Engineer",
+    tech: ["Nuxt.js", "TypeScript", "SSR"],
+    description:
+      "Migrated the company landing page from Vue 3 to Nuxt with SSR and full SEO optimization. Achieved high Lighthouse scores across performance, accessibility, best practices, and SEO — delivered within one week.",
+    image: "/static/mockup_rintisan.jpg",
+    url: "https://rintisan.co.id",
+  },
+  {
+    title: "Rintisan Billing Dashboard",
+    year: "2023",
+    category: "professional",
+    role: "Frontend Engineer",
+    tech: ["Nuxt.js", "TypeScript", "TanStack Query"],
+    description:
+      "Migrated the billing dashboard from Vue 3 JavaScript to Nuxt with full TypeScript adoption. Implemented TanStack Query for client-side caching to reduce unnecessary backend requests.",
+    image: "/static/mockup_rintisan_billing.jpg",
+    url: "https://billing.rintisan.co.id",
+  },
+  {
     title: "Ground Radar",
     year: "2025",
     category: "professional",
-    role: "Fullstack Engineer",
-    tech: ["Next.js", "TypeScript", "Node.js", "REST API"],
+    role: "Frontend Engineer",
+    tech: ["Next.js", "TypeScript", "Leaflet.js"],
     description:
-      "Production platform for UltraGPR technology, enabling professionals to run deep mineral exploration and geotechnical surveys. Serves geoscientists and engineering firms worldwide.",
+      "Migrated the company website from WordPress to Next.js without a CMS, rebuilding the frontend for improved performance. Developed an interactive global project map using Leaflet.js with clickable markers and location-based popups.",
     image: "/static/mockup_groundradar.jpg",
     url: "https://groundradar.com",
   },
@@ -45,10 +89,10 @@ export const projects: Project[] = [
     title: "Geolitix",
     year: "2024",
     category: "professional",
-    role: "Frontend Engineer",
-    tech: ["Next.js", "TypeScript", "WebAssembly", "Node.js"],
+    role: "Fullstack Engineer",
+    tech: ["Next.js", "Sanity CMS", "TypeScript", "AWS Amplify"],
     description:
-      "Cloud-based web application for processing and visualizing GPR survey data — no desktop software required. Allows geoscientists to analyze large datasets from any GPR instrument directly in the browser.",
+      "Company website with full GDPR & CCPA compliance for a cloud-based GPR data analysis platform. Collaborated with client's team on AWS Amplify deployment.",
     image: "/static/mockup_geolitix.jpg",
     url: "https://geolitix.com",
   },
@@ -57,7 +101,7 @@ export const projects: Project[] = [
     year: "2023",
     category: "professional",
     role: "Frontend Engineer",
-    tech: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+    tech: ["Nuxt.js", "TypeScript", "Nginx"],
     description:
       "B2B procurement platform for office supplies, enabling businesses to source and purchase in bulk. Features product catalog, bulk ordering, invoice management, and integrated payment gateway.",
     image: "/static/mockup_daruma.jpg",
@@ -67,10 +111,10 @@ export const projects: Project[] = [
     title: "YesDok",
     year: "2023",
     category: "professional",
-    role: "Frontend Engineer",
-    tech: ["Next.js", "TypeScript", "WebRTC", "Node.js"],
+    role: "Fullstack Developer",
+    tech: ["Nuxt.js", "NestJS", "TypeScript", "WebRTC", "LiveKit"],
     description:
-      "Telemedicine platform connecting patients with doctors via real-time video consultation. Built with Next.js, serving thousands of users seeking accessible healthcare across Indonesia.",
+      "Telemedicine platform connecting patients with doctors via real-time video consultation. Serving thousands of active users monthly across Indonesia.",
     image: "/static/mockup_yesdok.jpg",
     url: "https://yesdok.com",
   },
@@ -78,10 +122,10 @@ export const projects: Project[] = [
     title: "Sign-it",
     year: "2023",
     category: "professional",
-    role: "Fullstack Engineer",
-    tech: ["Next.js", "TypeScript", "Node.js", "PDF Processing"],
+    role: "Frontend Engineer",
+    tech: ["Vue.js", "InteractJS", "Docker", "GCP"],
     description:
-      "Digital document signing platform enabling paperless workflows. Users can upload, annotate, and sign PDF documents electronically — simplifying contract and approval processes.",
+      "Government-grade digital PDF signature platform built for PERURI. Users can upload, annotate, and sign documents electronically with legal validity.",
     image: "/static/mockup_signit.jpg",
     url: "https://sign-it.id",
   },
@@ -100,43 +144,47 @@ export const projects: Project[] = [
 
 export const experiences: Experience[] = [
   {
-    position: "Front End Engineer",
-    company: "YesDok",
+    position: "Fullstack Developer",
+    company: "PT. Yesdok Indonesia",
     logo: "/static/yesdok.jpeg",
-    period: "2022 - Present",
+    period: "Jan 2022 - Present",
     type: "fulltime",
     description:
-      "Leading frontend development for Indonesia's telemedicine platform. Responsible for video consultation features, patient dashboard, and doctor portal — serving thousands of active users.",
-    tech: ["Next.js", "TypeScript", "WebRTC", "Tailwind CSS"],
+      "Led end-to-end development of a telemedicine platform serving thousands of active users monthly. Initiated migration from native WebRTC to a self-hosted LiveKit media server, owned B2B WebView integration with IFG Insurance, and maintained technical ownership through team downsizing from 20 to 7 developers.",
+    tech: ["Nuxt.js", "NestJS", "TypeScript", "WebRTC", "LiveKit", "PostgreSQL"],
   },
   {
-    position: "Front End Engineer",
-    company: "Daruma",
-    logo: "/static/daruma.jpg",
-    period: "2023",
+    position: "Freelance Fullstack Developer",
+    company: "Various Clients",
+    period: "2023 - Present",
     type: "freelance",
     description:
-      "Developed the complete frontend for a B2B procurement platform, including product catalog, bulk ordering flow, and checkout integration.",
-    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
+      "Delivered multiple client projects: rintisan.co.id landing page revamp (Vue 3 → Nuxt, SSR + SEO), billing dashboard migration to TypeScript + TanStack Query, Sign-it for PERURI, Geolitix, GroundRadar website migration, and Daruma B2B.",
+    tech: ["Nuxt.js", "Next.js", "Vue.js", "TypeScript", "Docker", "AWS Amplify"],
   },
   {
-    position: "Fullstack Engineer",
-    company: "Nashta Global Utama",
+    position: "Fullstack Developer",
+    company: "PT. Nashta Global Utama",
     logo: "/static/nashta.jpg",
-    period: "2021 - 2022",
+    period: "2020 - 2021",
     type: "fulltime",
     description:
-      "Built internal tools and client-facing web applications. Worked across the full stack from REST API design to frontend implementation.",
-    tech: ["React", "Node.js", "Express", "PostgreSQL"],
+      "Contributed to the Indonesian National Single Window (INSW) under the Ministry of Finance — developed role-based user management for national-scale trade and customs infrastructure. Supported Bea Cukai portal using microfrontend architecture.",
+    tech: ["Vue.js", "Nuxt.js", "Node.js", "Microfrontend"],
   },
 ];
 
-// TODO: Fill in your actual education details
 export const education: Education[] = [
-  // {
-  //   degree: "Bachelor of Computer Science",
-  //   major: "Information Technology",
-  //   school: "Universitas XXX",
-  //   period: "2018 - 2022",
-  // },
+  {
+    degree: "Bachelor of Informatics Engineering (S.T.)",
+    major: "Informatics Engineering",
+    school: "Universitas 17 Agustus Surabaya",
+    period: "2016 - 2020",
+  },
+  {
+    degree: "Full Stack Developer Bootcamp",
+    major: "Full Stack Development",
+    school: "Arkademy Tech Education Platform",
+    period: "2020",
+  },
 ];

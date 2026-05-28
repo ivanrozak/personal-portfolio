@@ -75,12 +75,12 @@ export default function ProjectFilter({ projects }: { projects: Project[] }) {
               />
             </a>
             <div className="flex flex-col gap-3 md:w-3/5">
-              <div className="flex gap-2 items-baseline flex-wrap">
+              <div className="flex gap-2 items-center flex-wrap">
                 <h5 className="font-medium">{project.title}</h5>
                 <time className="text-second text-sm"> · {project.year}</time>
-                {project.role && (
-                  <span className="text-second text-sm"> · {project.role}</span>
-                )}
+                <span className="text-xs px-2 py-0.5 rounded-full border border-border text-second">
+                  {categoryLabels[project.category]}
+                </span>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {project.tech.map((t) => (

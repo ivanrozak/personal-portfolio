@@ -5,12 +5,13 @@ import { projects, experiences } from "@/lib/data";
 import { ArrowLink } from "@/component/icons";
 
 const techStack = [
-  "Next.js",
   "TypeScript",
+  "Nuxt.js",
+  "Next.js",
+  "Vue.js",
   "React",
   "Node.js",
-  "Tailwind CSS",
-  "PostgreSQL",
+  "NestJS",
 ];
 
 const Home = () => {
@@ -22,18 +23,8 @@ const Home = () => {
         className="flex flex-col gap-8 animate-in"
         style={{ "--index": 1 } as React.CSSProperties}
       >
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-            </span>
-            <span className="text-sm text-second">Open to opportunities</span>
-          </div>
+        <div>
           <h1 className="text-3xl font-bold tracking-tight">Ivan Rozak</h1>
-          <p className="text-second">
-            Fullstack Developer. I turn ideas into working software.
-          </p>
         </div>
         <div className="flex gap-4 flex-col sm:flex-row">
           <Image
@@ -44,11 +35,11 @@ const Home = () => {
             alt="profile picture"
           />
           <p className="text-[15px] leading-relaxed">
-            Hi, I'm Ivan — a Fullstack Developer based in Jakarta, Indonesia
-            with 4+ years of experience shipping web products used by real
-            users. I've worked on everything from telemedicine platforms to B2B
-            e-commerce and geoscience tooling. I care about clean code,
-            good UX, and building things that actually solve problems.
+            Hi, I'm Ivan — a Fullstack Engineer based in Jakarta, Indonesia
+            with 4+ years of experience delivering scalable web applications
+            across healthcare, government, and B2B industries. I work across the
+            full stack, from Nuxt.js/Next.js frontends to NestJS backends,
+            real-time systems, and self-hosted infrastructure.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -148,13 +139,19 @@ const Home = () => {
         <div className="flex flex-col gap-6">
           {experiences.map((experience) => (
             <div key={experience.company} className="flex gap-4">
-              <Image
-                src={experience.logo}
-                width={42}
-                height={42}
-                className="rounded-full object-cover object-center border shrink-0 mt-0.5 w-[42px] h-[42px]"
-                alt={experience.company}
-              />
+              {experience.logo ? (
+                <Image
+                  src={experience.logo}
+                  width={42}
+                  height={42}
+                  className="rounded-full object-cover object-center border shrink-0 mt-0.5 w-[42px] h-[42px]"
+                  alt={experience.company}
+                />
+              ) : (
+                <div className="w-[42px] h-[42px] rounded-full bg-secondary border shrink-0 mt-0.5 flex items-center justify-center text-sm font-semibold text-secondary-foreground">
+                  {experience.company[0]}
+                </div>
+              )}
               <div className="flex flex-col gap-1 flex-1">
                 <div className="flex items-start justify-between gap-4">
                   <div>
