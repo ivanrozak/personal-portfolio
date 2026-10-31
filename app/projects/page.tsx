@@ -1,23 +1,15 @@
-import React from "react";
-import { projects } from "@/lib/data";
+import type { Metadata } from "next";
+import { ArrowUpRight } from "lucide-react";
+import { projects, portfolioTagline } from "@/lib/data";
 import ProjectFilter from "@/component/ProjectFilter";
+import { BlurText, Reveal } from "@/component/portfolio/Reveal";
 
-const ProjectPage = () => {
-  return (
-    <div className="flex flex-col gap-16">
-      <div
-        className="flex flex-col gap-4 animate-in"
-        style={{ "--index": 1 } as React.CSSProperties}
-      >
-        <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
-        <p className="text-second">
-          {projects.length} projects — client work, experiments, and everything
-          in between.
-        </p>
-      </div>
-      <ProjectFilter projects={projects} />
-    </div>
-  );
-};
+export const metadata: Metadata = { title: "Projects", description: portfolioTagline };
 
-export default ProjectPage;
+export default function ProjectPage() {
+  return <div className="archive-page page-width">
+    <header className="archive-introduction"><h1><BlurText text="All projects" /></h1><Reveal delay={0.15}><p>{portfolioTagline}</p></Reveal></header>
+    <ProjectFilter projects={projects} />
+    <footer className="archive-footer"><h2>Have a project in mind?</h2><a className="text-link" href="mailto:ivanrozack@gmail.com">ivanrozack@gmail.com<ArrowUpRight size={19} /></a></footer>
+  </div>;
+}

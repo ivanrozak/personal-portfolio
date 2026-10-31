@@ -1,124 +1,49 @@
 "use client";
-import React, { useState } from "react";
-import { Project, ProjectCategory } from "@/lib/data";
-import { ArrowLink } from "@/component/icons";
-import { cn } from "@/lib/utils";
+
+import { useId, useMemo, useState } from "react";
+import Image from "next/image";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ArrowUpRight, Search, X } from "lucide-react";
+import type { Project, ProjectCategory } from "@/lib/data";
+import { Reveal } from "./portfolio/Reveal";
 
 type FilterValue = ProjectCategory | "all";
-
-const categoryLabels: Record<ProjectCategory, string> = {
-  professional: "Professional",
-  experiment: "Experiment",
-  team: "Team",
-  "open-source": "Open Source",
-};
+const categoryLabels: Record<ProjectCategory, string> = { professional: "Client work", experiment: "Independent", team: "Team", "open-source": "Open source" };
 
 export default function ProjectFilter({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState<FilterValue>("all");
-
-  const availableCategories = (
-    Object.keys(categoryLabels) as ProjectCategory[]
-  ).filter((cat) => projects.some((p) => p.category === cat));
-
-  const filtered =
-    active === "all" ? projects : projects.filter((p) => p.category === active);
-
-  return (
-    <div className="flex flex-col gap-8">
-      {availableCategories.length > 1 && (
-        <div className="flex gap-2 flex-wrap">
-          <button
-            onClick={() => setActive("all")}
-            className={cn(
-              "px-4 py-1.5 rounded-full text-sm font-medium transition-colors border",
-              active === "all"
-                ? "bg-foreground text-background border-foreground"
-                : "border-border hover:bg-accent"
-            )}
-          >
-            All
-          </button>
-          {availableCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActive(cat)}
-              className={cn(
-                "px-4 py-1.5 rounded-full text-sm font-medium transition-colors border",
-                active === cat
-                  ? "bg-foreground text-background border-foreground"
-                  : "border-border hover:bg-accent"
-              )}
-            >
-              {categoryLabels[cat]}
-            </button>
-          ))}
-        </div>
-      )}
-
-      <div className="flex flex-col gap-16">
-        {filtered.map((project, index) => (
-          <div
-            key={project.title}
-            className="flex gap-8 flex-col md:flex-row animate-in"
-            style={{ "--index": index + 1 } as React.CSSProperties}
-          >
-            <a
-              className="md:w-2/5 overflow-hidden rounded-xl"
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={project.image}
-                className="aspect-video w-full object-cover hover:scale-105 transition-transform duration-300"
-                alt={project.title}
-              />
-            </a>
-            <div className="flex flex-col gap-3 md:w-3/5">
-              <div className="flex gap-2 items-center flex-wrap">
-                <h5 className="font-medium">{project.title}</h5>
-                <time className="text-second text-sm"> · {project.year}</time>
-                <span className="text-xs px-2 py-0.5 rounded-full border border-border text-second">
-                  {categoryLabels[project.category]}
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs px-2.5 py-0.5 rounded-full bg-secondary text-secondary-foreground"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <p className="text-second text-sm">{project.description}</p>
-              <div className="flex gap-4 items-center">
-                <a
-                  className="text-second flex items-center gap-1 hover:underline text-sm"
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Live preview
-                  <ArrowLink className="w-3.5 h-3.5" />
-                </a>
-                {project.repoUrl && (
-                  <a
-                    className="text-second flex items-center gap-1 hover:underline text-sm"
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Source code
-                    <ArrowLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+  const [query, setQuery] = useState("");
+  const searchId = useId();
+  const reduced = useReducedMotion();
+  const categories = (Object.keys(categoryLabels) as ProjectCategory[]).filter(category => projects.some(project => project.category === category));
+  const filtered = useMemo(() => {
+    const term = query.trim().toLocaleLowerCase();
+    return projects.filter(project => (active === "all" || project.category === active) && `${project.title} ${project.subtitle ?? ""} ${project.description} ${project.role ?? ""} ${project.tech.join(" ")}`.toLocaleLowerCase().includes(term));
+  }, [projects, active, query]);
+  const reset = () => { setActive("all"); setQuery(""); };
+  return <div className="archive-browser">
+    <div className="archive-toolbar">
+      <div className="archive-filters" role="group" aria-label="Filter projects by category">
+        <button className={active === "all" ? "is-active" : ""} aria-pressed={active === "all"} onClick={() => setActive("all")}>All<span>{projects.length}</span></button>
+        {categories.map(category => <button key={category} className={active === category ? "is-active" : ""} aria-pressed={active === category} onClick={() => setActive(category)}>{categoryLabels[category]}<span>{projects.filter(project => project.category === category).length}</span></button>)}
       </div>
+      <div className="archive-search"><Search size={18} aria-hidden="true" /><label htmlFor={searchId} className="sr-only">Search projects</label><input id={searchId} type="search" placeholder="Search projects..." value={query} onChange={event => setQuery(event.target.value)} />{query && <button aria-label="Clear search" onClick={() => { setQuery(""); document.getElementById(searchId)?.focus(); }}><X size={16} /></button>}</div>
     </div>
-  );
+    <div className="archive-result-heading"><p role="status" aria-live="polite" aria-atomic="true">{filtered.length} {filtered.length === 1 ? "project" : "projects"}{query.trim() ? ` matching “${query.trim()}”` : ""}</p>{(query || active !== "all") && <button onClick={reset} className="clear-filters">Clear filters<X size={14} /></button>}</div>
+    <div className="archive-grid">
+      <AnimatePresence initial={false} mode="popLayout">{filtered.map(project => <motion.article className="archive-project" key={project.title} layout={reduced ? false : "position"} initial={false} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduced ? 0 : 8 }} transition={{ duration: reduced ? 0 : 0.25 }}>
+        <Reveal>
+          <a className="archive-project-link" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} — visit website (opens in a new tab)`}>
+            <div className="archive-project-image"><Image src={project.image} alt={`${project.title} website preview`} width={832} height={520} sizes="(max-width: 639px) calc(100vw - 48px), (max-width: 1023px) 46vw, 30vw" /></div>
+            <div className="archive-project-title"><h2>{project.title}</h2><ArrowUpRight size={20} aria-hidden="true" /></div>
+          </a>
+          <p className="project-meta">{project.subtitle ?? categoryLabels[project.category]}{project.year && <> · <time>{project.year}</time></>}</p>
+          <p className="archive-project-description">{project.description}</p>
+          {project.role && <p className="project-role">{project.role}</p>}
+          {project.repoUrl && <a className="text-link project-source" href={project.repoUrl} target="_blank" rel="noopener noreferrer">Source code<ArrowUpRight size={14} /></a>}
+        </Reveal>
+      </motion.article>)}</AnimatePresence>
+    </div>
+    {filtered.length === 0 && <div className="archive-empty"><h2>No projects found.</h2><p>Try a different keyword or explore all the work.</p><button className="button" onClick={reset}>View all projects<ArrowUpRight size={18} /></button></div>}
+  </div>;
 }

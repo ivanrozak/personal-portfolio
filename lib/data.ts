@@ -2,8 +2,10 @@ export type ProjectCategory = "professional" | "experiment" | "team" | "open-sou
 
 export interface Project {
   title: string;
-  year: string;
+  subtitle?: string;
+  year?: string;
   description: string;
+  previewDescription?: string;
   image: string;
   url: string;
   tech: string[];
@@ -29,117 +31,188 @@ export interface Education {
   period: string;
 }
 
+export const portfolioTagline = "A collection of websites and products I’ve helped build.";
+
 export const projects: Project[] = [
   {
-    title: "Yuk Puncak",
-    year: "2026",
-    category: "experiment",
-    role: "Solo Engineer",
-    tech: ["Next.js", "Hono", "React Native", "PostgreSQL", "Redis", "Dokploy"],
-    description:
-      "Villa booking and property management platform built entirely solo — admin panel, management panel, customer web, Android mobile app (internal testing), backend API, and self-hosted infrastructure via Dokploy.",
-    image: "/static/mockup_yukpuncak.jpg",
-    url: "https://yukpuncak.com",
+    "title": "Rintisan",
+    "previewDescription": "A clearer home for digital business products and services.",
+    "subtitle": "Business platform website",
+    "year": "2023",
+    "category": "professional",
+    "role": "Frontend Engineer",
+    "tech": [
+      "Nuxt.js",
+      "TypeScript",
+      "SSR"
+    ],
+    "description": "A business-platform website bringing digital products and services into one clear online presence.",
+    "image": "/static/projects/rintisan.webp",
+    "url": "https://rintisan.co.id"
   },
   {
-    title: "Lumina",
-    year: "2025",
-    category: "experiment",
-    role: "Solo Engineer",
-    tech: ["Next.js", "LiveKit", "PostgreSQL", "S3"],
-    description:
-      "Video conferencing platform with organization and member management. Users can create orgs, invite members, and host meetings. Built solo with a self-hosted LiveKit media server and S3 file storage.",
-    image: "/static/mockup_lumina.jpg",
-    url: "https://lumina.inaplux.com",
+    "title": "Rintisan Billing",
+    "subtitle": "Invoicing & payments",
+    "year": "2023",
+    "category": "professional",
+    "role": "Frontend Engineer",
+    "tech": [
+      "Nuxt.js",
+      "TypeScript",
+      "TanStack Query"
+    ],
+    "description": "An invoicing and payments product, with a dashboard migrated to Nuxt, TypeScript, and TanStack Query.",
+    "image": "/static/projects/billing.webp",
+    "url": "https://billing.rintisan.co.id"
   },
   {
-    title: "Rintisan Landing Page",
-    year: "2023",
-    category: "professional",
-    role: "Frontend Engineer",
-    tech: ["Nuxt.js", "TypeScript", "SSR"],
-    description:
-      "Migrated the company landing page from Vue 3 to Nuxt with SSR and full SEO optimization. Achieved high Lighthouse scores across performance, accessibility, best practices, and SEO — delivered within one week.",
-    image: "/static/mockup_rintisan.jpg",
-    url: "https://rintisan.co.id",
+    "title": "Daruma",
+    "subtitle": "B2B e-commerce",
+    "year": "2023",
+    "category": "professional",
+    "role": "Frontend Engineer",
+    "tech": [
+      "Nuxt.js",
+      "TypeScript",
+      "Nginx"
+    ],
+    "description": "A B2B commerce platform for industrial, office, and business supplies, with catalog, ordering, and payment flows.",
+    "image": "/static/projects/daruma.webp",
+    "url": "https://daruma.co.id"
   },
   {
-    title: "Rintisan Billing Dashboard",
-    year: "2023",
-    category: "professional",
-    role: "Frontend Engineer",
-    tech: ["Nuxt.js", "TypeScript", "TanStack Query"],
-    description:
-      "Migrated the billing dashboard from Vue 3 JavaScript to Nuxt with full TypeScript adoption. Implemented TanStack Query for client-side caching to reduce unnecessary backend requests.",
-    image: "/static/mockup_rintisan_billing.jpg",
-    url: "https://billing.rintisan.co.id",
+    "title": "RasaRasa",
+    "previewDescription": "A website connecting culinary spaces, food brands, and thematic events.",
+    "subtitle": "Foodcourt & culinary spaces",
+    "category": "professional",
+    "role": "Website Developer",
+    "tech": [],
+    "description": "A foodcourt-management website connecting culinary spaces, food brands, digital ordering, and thematic events.",
+    "image": "/static/projects/rasarasa.webp",
+    "url": "https://rasarasa.co.id"
   },
   {
-    title: "Ground Radar",
-    year: "2025",
-    category: "professional",
-    role: "Frontend Engineer",
-    tech: ["Next.js", "TypeScript", "Leaflet.js"],
-    description:
-      "Migrated the company website from WordPress to Next.js without a CMS, rebuilding the frontend for improved performance. Developed an interactive global project map using Leaflet.js with clickable markers and location-based popups.",
-    image: "/static/mockup_groundradar.jpg",
-    url: "https://groundradar.com",
+    "title": "Yuk Puncak",
+    "previewDescription": "A villa-booking platform, built from customer experience to infrastructure.",
+    "subtitle": "Villa booking platform",
+    "year": "2026",
+    "category": "experiment",
+    "role": "Solo Engineer",
+    "tech": [
+      "Next.js",
+      "Hono",
+      "React Native",
+      "PostgreSQL",
+      "Redis",
+      "Dokploy"
+    ],
+    "description": "A villa-booking and property-management platform, built solo across customer web, admin tools, API, mobile, and infrastructure.",
+    "image": "/static/projects/yukpuncak.webp",
+    "url": "https://yukpuncak.com"
   },
   {
-    title: "Geolitix",
-    year: "2024",
-    category: "professional",
-    role: "Fullstack Engineer",
-    tech: ["Next.js", "Sanity CMS", "TypeScript", "AWS Amplify"],
-    description:
-      "Company website with full GDPR & CCPA compliance for a cloud-based GPR data analysis platform. Collaborated with client's team on AWS Amplify deployment.",
-    image: "/static/mockup_geolitix.jpg",
-    url: "https://geolitix.com",
+    "title": "Pixelleven",
+    "previewDescription": "A personal photobooth project for memorable events.",
+    "subtitle": "Photobooth experience",
+    "category": "experiment",
+    "role": "Independent Project",
+    "tech": [],
+    "description": "A personal photobooth venture with event packages, custom-frame inspiration, and a clear path to WhatsApp booking.",
+    "image": "/static/projects/pixelleven.webp",
+    "url": "https://pixelleven.id"
   },
   {
-    title: "Daruma B2B E-Commerce",
-    year: "2023",
-    category: "professional",
-    role: "Frontend Engineer",
-    tech: ["Nuxt.js", "TypeScript", "Nginx"],
-    description:
-      "B2B procurement platform for office supplies, enabling businesses to source and purchase in bulk. Features product catalog, bulk ordering, invoice management, and integrated payment gateway.",
-    image: "/static/mockup_daruma.jpg",
-    url: "https://daruma.co.id",
+    "title": "Kasheer",
+    "previewDescription": "A product website for F&B point-of-sale and inventory tools.",
+    "subtitle": "F&B point-of-sale website",
+    "category": "professional",
+    "role": "Website Developer",
+    "tech": [],
+    "description": "A product website for an F&B point-of-sale platform, presenting transactions, inventory, and multi-outlet operations.",
+    "image": "/static/projects/kasheer.webp",
+    "url": "https://kasheer.id"
   },
   {
-    title: "YesDok",
-    year: "2023",
-    category: "professional",
-    role: "Fullstack Developer",
-    tech: ["Nuxt.js", "NestJS", "TypeScript", "WebRTC", "LiveKit"],
-    description:
-      "Telemedicine platform connecting patients with doctors via real-time video consultation. Serving thousands of active users monthly across Indonesia.",
-    image: "/static/mockup_yesdok.jpg",
-    url: "https://yesdok.com",
+    "title": "Ground Radar",
+    "subtitle": "GPR company website",
+    "year": "2025",
+    "category": "professional",
+    "role": "Frontend Engineer",
+    "tech": [
+      "Next.js",
+      "TypeScript",
+      "Leaflet.js"
+    ],
+    "description": "A company website rebuilt in Next.js, with an interactive map for exploring ground-penetrating radar projects worldwide.",
+    "image": "/static/projects/groundradar.webp",
+    "url": "https://groundradar.com"
   },
   {
-    title: "Sign-it",
-    year: "2023",
-    category: "professional",
-    role: "Frontend Engineer",
-    tech: ["Vue.js", "InteractJS", "Docker", "GCP"],
-    description:
-      "Government-grade digital PDF signature platform built for PERURI. Users can upload, annotate, and sign documents electronically with legal validity.",
-    image: "/static/mockup_signit.jpg",
-    url: "https://sign-it.id",
+    "title": "Geolitix",
+    "subtitle": "Cloud-based GPR analysis",
+    "year": "2024",
+    "category": "professional",
+    "role": "Fullstack Engineer",
+    "tech": [
+      "Next.js",
+      "Sanity CMS",
+      "TypeScript",
+      "AWS Amplify"
+    ],
+    "description": "A CMS-powered company website introducing cloud-based GPR analysis, product capabilities, and trial entry points.",
+    "image": "/static/projects/geolitix.webp",
+    "url": "https://geolitix.com"
   },
   {
-    title: "ASA Indonesia",
-    year: "2023",
-    category: "professional",
-    role: "Frontend Engineer",
-    tech: ["Next.js", "TypeScript", "Node.js", "REST API"],
-    description:
-      "Customer engagement platform helping businesses build lasting relationships through automated touchpoints, analytics, and multi-channel communication tools.",
-    image: "/static/mockup_asaindonesia.jpg",
-    url: "https://asaindonesia.net",
+    "title": "YesDok",
+    "subtitle": "Telemedicine platform",
+    "year": "2023",
+    "category": "professional",
+    "role": "Fullstack Developer",
+    "tech": [
+      "Nuxt.js",
+      "NestJS",
+      "TypeScript",
+      "WebRTC",
+      "LiveKit"
+    ],
+    "description": "A telemedicine platform connecting patients and doctors through online consultations and real-time video.",
+    "image": "/static/projects/yesdok.webp",
+    "url": "https://yesdok.com"
   },
+  {
+    "title": "Sign-it",
+    "previewDescription": "Upload, annotate, and sign digital documents online.",
+    "subtitle": "Digital document signing",
+    "year": "2023",
+    "category": "professional",
+    "role": "Frontend Engineer",
+    "tech": [
+      "Vue.js",
+      "InteractJS",
+      "Docker",
+      "GCP"
+    ],
+    "description": "A digital document-signing platform with tools to upload, annotate, and sign PDFs online.",
+    "image": "/static/projects/signit.webp",
+    "url": "https://sign-it.id"
+  },
+  {
+    "title": "ASA Indonesia",
+    "subtitle": "Customer-experience consultancy",
+    "year": "2023",
+    "category": "professional",
+    "role": "Frontend Engineer",
+    "tech": [
+      "Next.js",
+      "TypeScript",
+      "Node.js",
+      "REST API"
+    ],
+    "description": "A consultancy website presenting customer-experience services, client stories, and a guided enquiry flow.",
+    "image": "/static/projects/asa.webp",
+    "url": "https://asaindonesia.net"
+  }
 ];
 
 export const experiences: Experience[] = [

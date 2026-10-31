@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import "lenis/dist/lenis.css";
 import "./globals.scss";
 import Provider from "./provider";
 import NavigationBar from "@/component/NavigationBar";
 import { GoogleTagManager } from "@next/third-parties/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import SiteShell from "@/component/portfolio/SiteShell";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ivan-rozak.vercel.app"),
-  title: "Home | Ivan Rozak",
+  title: { default: "Ivan Rozak — Fullstack Engineer", template: "%s | Ivan Rozak" },
   description:
-    "I am a full-stack software engineer who basically just enjoys creating things.",
+    "I turn business ideas into websites and web apps, from the first interface to production. Explore selected work by Ivan Rozak, a fullstack engineer in Jakarta.",
   openGraph: {
     type: "website",
     url: "https://ivan-rozak.vercel.app",
@@ -30,10 +30,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body className={GeistSans.className}>
         <Provider>
+          <a className="skip-link" href="#main-content">Skip to content</a>
           <NavigationBar />
-          <div className="max-w-3xl mx-auto px-6 py-12">{children}</div>
+          <SiteShell>{children}</SiteShell>
         </Provider>
       </body>
       <GoogleTagManager gtmId="G-998STYP66L" />
