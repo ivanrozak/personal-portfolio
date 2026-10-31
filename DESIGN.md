@@ -26,3 +26,10 @@ Wonder artboards `rog` (1440px) and `nat` (390px), Process Experience Editorial,
 - Experience uses a #f4f4f4 surface, a 400px desktop introduction rail, and aligned company/role/description/date rows.
 - Row rules and layout stay stationary; cell content enters with small staggered opacity/translate reveals (14px desktop, 9px mobile). Existing heading blur reveals and reduced-motion support remain.
 - Homepage contact and footer now use #121212, white headings/links, #bdbdbd supporting text, #3a3a3a dividers, and a white primary enquiry button.
+
+## Approved technology strip
+- Replaced the hero's client-name strip with a static monochrome technology row, labelled “Tools behind the work”.
+- Feature Next.js, Nuxt, NestJS, Hono, React Native, PostgreSQL, Docker, and AWS; use two columns on mobile.
+- Native “View full stack” disclosure exposes all 24 user-confirmed tools and technologies across web/mobile, backend/real-time, CMS, data/cloud, infrastructure/deployment, version control, and project management (Jira / ClickUp). No additional autoplay marquee.
+
+Removed the duplicate technical-foundation list from the About introduction; the hero technology strip is the stack reference.
