@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ivan Rozak — Portfolio
 
-## Getting Started
+A Next.js portfolio based on the approved **Marquee First** Wonder design. Monochrome interface, full-color project previews, Geist typography, Lenis smooth scrolling, and Motion interactions.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [localhost:3000](http://localhost:3000). Existing blog routes use the Contentful environment variables in your local `.env`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Preview and verify
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run build:preview
+npm run preview
+```
 
-## Learn More
+Open [127.0.0.1:3100](http://127.0.0.1:3100). This uses `.next-preview` to keep the preview build separate from the development server.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run typecheck
+npm run lint
+npm run test:e2e
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Playwright suite uses the preview build and tests desktop/mobile navigation, search + category filtering, empty-result recovery, keyboard accordion controls, per-frame marquee direction/continuity, rapid hover, loop seams, hover/focus/manual pause, native touch swipe, reduced motion, and content without JavaScript. Install a browser once if needed: `npx playwright install chromium`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Update projects
 
-## Deploy on Vercel
+Add projects to `lib/data.ts`, and put optimized thumbnails in `public/static/projects/`. `subtitle`, `previewDescription`, `year`, and `role` are optional. Use `previewDescription` for concise homepage copy; the archive shows the full description. Do not add unverified dates or responsibilities.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The homepage selection is ordered by `featuredNames` in `app/page.tsx`. The archive automatically derives category counts and includes all entries.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Motion behavior
+
+- Desktop: two looping tracks, 20px/s and 16px/s, driven by persistent Motion values. Hover or keyboard focus on a project card smoothly decelerates both over 180ms; resume ramps up over 300ms. Track position is retained, with no spring or thumbnail zoom. Headings, empty space, and archive controls keep motion running; the explicit pause button persists until resumed.
+- Mobile/touch: native horizontal swipe with scroll snapping, arrow controls, and visible descriptions.
+- Reduced motion: manual exploration with no autoplay, blur reveal, parallax, or Lenis smoothing.
+- Headings: staggered blur + vertical reveal. Content remains readable before JavaScript loads.
+- Project enquiry: shared native dialog from the hero, navigation, services, and contact CTA. Collects name, email, project type, description, optional budget and timeline. Continue in email prepares a mailto draft for the visitor to review and send; a copy-brief fallback is included. No website submission or mail-sending backend is configured.
+
+Implementation references: [Lenis](https://github.com/darkroomengineering/lenis), [Motion useAnimate](https://motion.dev/docs/react-use-animate).
+
+See `PRODUCT.md` and `DESIGN.md` for approved scope and design decisions. Original asset metadata and source notes are in `output/project-assets/`.

@@ -3,7 +3,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "./icons";
-import { Button } from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
 
 export default function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false);
@@ -13,22 +13,14 @@ export default function ThemeSwitcher() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
-  const changeTheme = () => {
-    if (theme === "light") {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-  };
+  if (!mounted) return <div className="h-10 w-10 rounded-full bg-accent animate-pulse" />;
 
   return (
     <Button
-      isIconOnly
-      variant="light"
-      radius="full"
-      onClick={() => changeTheme()}
+      size="icon"
+      variant="ghost"
+      className="rounded-full"
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
       {theme === "light" ? <SunIcon /> : <MoonIcon />}
     </Button>
