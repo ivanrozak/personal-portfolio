@@ -337,3 +337,29 @@ test("editorial rows retain alignment and dark footer stays readable and interac
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(footer.getByRole("button", { name: "Discuss your project" })).toBeFocused();
 });
+
+test("Open Graph and Twitter cards use real landscape images and correct page metadata", async ({ page, isMobile }) => {
+  test.skip(isMobile);
+  for (const route of ["/", "/projects"]) {
+    await page.goto(route);
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
+    await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
+    await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
+    const canonical = await page.locator('meta[property="og:url"]').getAttribute("content");
+    expect(new URL(canonical!).pathname).toBe(route);
+    for (const [selector, pathname, height] of [
+      ['meta[property="og:image"]', "/opengraph-image", 630],
+      ['meta[name="twitter:image"]', "/twitter-image", 600],
+    ] as const) {
+      const url = new URL((await page.locator(selector).getAttribute("content"))!);
+      expect(url.pathname).toBe(pathname);
+      const response = await page.request.get(url.pathname + url.search);
+      expect(response.ok()).toBe(true);
+      expect(response.headers()["content-type"]).toContain("image/png");
+      const bytes = await response.body();
+      expect(bytes.subarray(1, 4).toString()).toBe("PNG");
+      expect(bytes.readUInt32BE(16)).toBe(1200);
+      expect(bytes.readUInt32BE(20)).toBe(height);
+    }
+  }
+});

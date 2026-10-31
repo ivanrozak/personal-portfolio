@@ -1,0 +1,6 @@
+Tool: built-in ImageGen (no CLI/API fallback).
+Edit target: public/main_icon.webp, preserved unchanged.
+
+Edit target: attached existing black IR monogram on transparent canvas. Create a production-ready square favicon master, 1024x1024 pixels, using this exact existing monogram. Preserve the exact interlocking IR silhouette, shape, orientation and proportions; do not invent or redesign letters. Clean compression noise and edge artifacts. Place the same solid black monogram precisely centered on a pure opaque white square background, with even clear margins of approximately 15% around the real visible symbol. Flat black and white only, crisp smooth edges. No new lettering, border, shadow, texture, gradients, 3D or presentation mockup. The output is the actual icon image, no surrounding display.
+
+Returned master: 1254 x 1254 pixels. Format/size derivatives are created by prepare_favicons.py. PWA maskable variants add safe-zone padding.

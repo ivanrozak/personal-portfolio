@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
+import { openGraphDefaults, twitterDefaults } from "@/lib/social-metadata";
 import { projects, portfolioTagline } from "@/lib/data";
 import ProjectFilter from "@/component/ProjectFilter";
 import { BlurText, Reveal } from "@/component/portfolio/Reveal";
 
-export const metadata: Metadata = { title: "Projects", description: portfolioTagline };
+export const metadata: Metadata = {
+  title: "Projects",
+  description: portfolioTagline,
+  openGraph: { ...openGraphDefaults, title: "Projects | Ivan Rozak", description: portfolioTagline, url: "/projects" },
+  twitter: { ...twitterDefaults, title: "Projects | Ivan Rozak", description: portfolioTagline },
+};
 
 export default function ProjectPage() {
   return <div className="archive-page page-width">

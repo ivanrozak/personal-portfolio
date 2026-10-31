@@ -45,3 +45,15 @@ The homepage selection is ordered by `featuredNames` in `app/page.tsx`. The arch
 Implementation references: [Lenis](https://github.com/darkroomengineering/lenis), [Motion useAnimate](https://motion.dev/docs/react-use-animate).
 
 See `PRODUCT.md` and `DESIGN.md` for approved scope and design decisions. Original asset metadata and source notes are in `output/project-assets/`.
+
+## Technology strip
+
+`component/portfolio/TechStack.tsx` owns the eight featured technologies and the complete grouped list. The native details disclosure works with keyboard navigation and without JavaScript. Logos are monochrome and rendered statically.
+
+Icon sources: [React Icons](https://react-icons.github.io/react-icons/), [Simple Icons](https://simpleicons.org/), and the AWS icon from [Font Awesome Free](https://fontawesome.com/license/free), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and rendered in monochrome.
+
+## Social previews
+
+Next.js renders dedicated PNG sharing cards at `/opengraph-image` (1200×630) and `/twitter-image` (1200×600). The shared layout in `lib/social-image.tsx` uses self-hosted Geist fonts and the existing approved portrait, with no external image/font requests at render time. Metadata defaults live in `lib/social-metadata.ts`; Projects overrides its title, description and URL while retaining the sharing images.
+
+Local exported previews are in `output/implementation/opengraph-image.png` and `twitter-image.png`.

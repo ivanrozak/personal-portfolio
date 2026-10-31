@@ -35,7 +35,7 @@ Project copy and WebP assets from earlier work, `output/` asset catalog, and pre
 `npm run preview` serves the verified isolated `.next-preview` production build at http://127.0.0.1:3100. Standard `npm run dev` remains available at port 3000.
 
 ## Delivery state
-User authorized committing all work on feature/redesign. No push or deployment requested. Previous project assets/catalog and existing changes were preserved. No required implementation work remains for this scope.
+User authorized committing and pushing all current work on feature/redesign. Previous project assets/catalog and existing changes were preserved. No required implementation work remains for this scope.
 
 ## Follow-up: card hover and enquiry dialog
 - Pause now applies only while a card is hovered/focused, plus explicit manual pause. Section heading and empty space keep the tracks running.
@@ -61,3 +61,26 @@ For future changes, read PRODUCT.md and DESIGN.md first, then edit project data 
 - First verification: production build and TypeScript passed; 10 targeted desktop/mobile checks passed, including responsive widths, heading reveal, reduced motion, enquiry flow, editorial alignment, footer contrast and CTA focus. Desktop rows measure 136px and mobile rows 204px at 1440/390 widths; no horizontal overflow.
 - Screenshot inspection matched the selected composition. Fixed a missing space at the responsive paragraph break. Mobile tall-element captures showed a fixed-element screenshot artifact; live geometry confirmed the skip link remains outside the viewport and unfocused.
 - Final verification: corrected mobile paragraph spacing confirmed in viewport capture. Desktop/mobile row animations show opacity and vertical movement settling to opacity 1 / y=0, with zero row-height change throughout. Final production build and TypeScript passed; preview remains on port 3100.
+
+## Follow-up: static technology strip
+- Replaced hero client names with eight featured monochrome technology logos/names. All 22 user-provided stacks remain available in a grouped native details disclosure.
+- Main strip is static, with a two-column mobile layout; the existing project marquee remains the page's moving work preview.
+- Initial verification passed build, TypeScript, five targeted regression tests, keyboard disclosure opening/closing, 8/22 item counts, and desktop/mobile overflow checks. Screenshots are in output/implementation/tech-stack-*.png.
+- Kept technology markup on the server so static icons do not add browser-side icon runtime.
+- Final server-rendered build passed. All 8 logos and 22 technologies render and the disclosure opens via keyboard with JavaScript disabled at widths 320, 390, 1024, and 1440, without horizontal overflow. Homepage client bundle remains 9.72kB rather than adding the icon runtime.
+
+## Follow-up: tool additions and About cleanup
+- Added Jira and ClickUp under Project management in the full stack list (24 total tools/technologies).
+- Removed the duplicate technology paragraph from the About introduction and its unused CSS. Tech strip remains static pending an explicit decision to animate it.
+
+## Follow-up: portfolio favicon identity
+- Canonical source is public/main_icon.webp, preserved unchanged. Built-in ImageGen produced a cleaned, centered white-background favicon master with the same IR monogram; prompt and regeneration notes are in output/imagegen/.
+- Replaced all legacy favicon/Apple/PWA raster assets, removed automatic app icon0.svg/icon1.png/favicon.ico/apple-icon.png overrides, and updated layout/manifest/social-image references. Fallback URLs use a version key to refresh cached artwork.
+- Final verification passed: homepage and Projects HTML expose main_icon.webp plus versioned PNG/ICO/Apple fallbacks; every linked icon and both manifest images return HTTP 200. No icon0/icon1 references remain in rendered metadata. Production build and TypeScript passed; public/main_icon.webp is unchanged.
+
+## Follow-up: Open Graph and Twitter cards
+- Added dedicated static Next.js image routes: Open Graph 1200×630, Twitter 1200×600. Shared render uses the original approved portrait and local Geist fonts; no regenerated face or network-dependent assets.
+- Replaced square logo social previews with landscape cards matching the homepage. Added Twitter summary_large_image metadata and appropriate sharing titles/descriptions. Projects now shares its own title and URL.
+- Exported PNG previews into output/implementation/, visually reviewed both, and verified PNG dimensions, HTTP 200/content type, OG dimensions/canonical URLs and Twitter card metadata on homepage and Projects. Production build and TypeScript passed.
+- User authorized commit + push after final verification, including all pending technology-strip and favicon changes.
+- Pre-push regression verification passed: 18 desktop/mobile tests, 6 device-specific skips; two unchanged long-loop simulations were excluded from this rerun. Git remote was fetched and matched the existing local HEAD before creating this update commit. Credential-pattern scan found no matches in changed text files.

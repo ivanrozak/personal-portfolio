@@ -5,6 +5,7 @@ import "./globals.scss";
 import Provider from "./provider";
 import NavigationBar from "@/component/NavigationBar";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { openGraphDefaults, twitterDefaults } from "@/lib/social-metadata";
 import SiteShell from "@/component/portfolio/SiteShell";
 
 export const metadata: Metadata = {
@@ -12,15 +13,17 @@ export const metadata: Metadata = {
   title: { default: "Ivan Rozak — Fullstack Engineer", template: "%s | Ivan Rozak" },
   description:
     "I turn business ideas into websites and web apps, from the first interface to production. Explore selected work by Ivan Rozak, a fullstack engineer in Jakarta.",
-  openGraph: {
-    type: "website",
-    url: "https://ivan-rozak.vercel.app",
-    title: "Ivan Rozak",
-    description:
-      "I am a full-stack software engineer who basically just enjoys creating things.",
-    siteName: "IvanRozak",
-    images: [{ url: "https://ivan-rozak.vercel.app/apple-touch-icon.png?" }],
+  icons: {
+    icon: [
+      { url: "/main_icon.webp?v=ir", type: "image/webp", sizes: "1024x1024" },
+      { url: "/favicon-32x32.png?v=ir", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png?v=ir", type: "image/png", sizes: "16x16" },
+    ],
+    shortcut: "/favicon.ico?v=ir",
+    apple: [{ url: "/apple-touch-icon.png?v=ir", sizes: "180x180", type: "image/png" }],
   },
+  openGraph: openGraphDefaults,
+  twitter: twitterDefaults,
 };
 
 export default function RootLayout({

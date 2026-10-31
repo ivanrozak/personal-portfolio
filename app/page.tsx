@@ -5,6 +5,7 @@ import { BlurText, Reveal } from "@/component/portfolio/Reveal";
 import ProjectMarquee from "@/component/portfolio/ProjectMarquee";
 import Services from "@/component/portfolio/Services";
 import EditorialRow from "@/component/portfolio/EditorialRow";
+import TechStack from "@/component/portfolio/TechStack";
 import HeroPortrait from "@/component/portfolio/HeroPortrait";
 import { InquiryButton } from "@/component/portfolio/ProjectInquiry";
 
@@ -36,10 +37,7 @@ export default function Home() {
           </div>
           <HeroPortrait />
         </div>
-        <Reveal delay={0.45} className="credibility">
-          <p>Experience across healthcare,<br className="desktop-break" /> government, and B2B.</p>
-          <ul aria-label="Selected client projects">{["YesDok", "Ground Radar", "Geolitix", "Daruma", "Sign-it"].map(name => <li key={name}>{name}</li>)}</ul>
-        </Reveal>
+        <TechStack />
       </div>
     </section>
     <ProjectMarquee projects={featured} />
@@ -56,7 +54,7 @@ export default function Home() {
       </div>
     </section>
     <section id="about" className="about-section editorial-about" aria-labelledby="about-heading"><div className="page-width editorial-about-grid">
-      <div className="section-introduction"><h2 id="about-heading"><BlurText text={"One engineer.\nThe whole picture."} /></h2><p>I work across the interface, backend, and infrastructure. That means fewer gaps between how a product looks, how it works, and how it gets to your users.</p><p className="technical-foundation">TypeScript · Next.js · Nuxt.js · NestJS<br />PostgreSQL · LiveKit · Docker</p></div>
+      <div className="section-introduction"><h2 id="about-heading"><BlurText text={"One engineer.\nThe whole picture."} /></h2><p>I work across the interface, backend, and infrastructure. That means fewer gaps between how a product looks, how it works, and how it gets to your users.</p></div>
       <div className="experience-list">{history.map(item => <EditorialRow key={item.company} className="experience-row"><h3 data-editorial-cell>{item.company}</h3><span className="experience-date" data-editorial-cell>{item.date}</span><p className="experience-role" data-editorial-cell>{item.role}</p><p className="experience-description" data-editorial-cell>{item.description}</p></EditorialRow>)}</div>
     </div></section>
     <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="page-width">
