@@ -10,12 +10,12 @@ export const openGraphDefaults: NonNullable<Metadata["openGraph"]> = {
   title: socialTitle,
   description: socialDescription,
   siteName: "Ivan Rozak",
-  images: [{ url: "/opengraph-image", width: 1200, height: 630, type: "image/png", alt: socialImageAlt }],
+  images: [{ url: "/social/portfolio-og-v2.png", width: 1200, height: 630, type: "image/png", alt: socialImageAlt }],
 };
 
 export const twitterDefaults: NonNullable<Metadata["twitter"]> = {
   card: "summary_large_image",
   title: socialTitle,
   description: socialDescription,
-  images: [{ url: "/twitter-image", width: 1200, height: 600, alt: socialImageAlt }],
+  images: [{ url: "/social/portfolio-twitter-v2.png", width: 1200, height: 600, alt: socialImageAlt }],
 };

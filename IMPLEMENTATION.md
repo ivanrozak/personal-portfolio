@@ -84,3 +84,8 @@ For future changes, read PRODUCT.md and DESIGN.md first, then edit project data 
 - Exported PNG previews into output/implementation/, visually reviewed both, and verified PNG dimensions, HTTP 200/content type, OG dimensions/canonical URLs and Twitter card metadata on homepage and Projects. Production build and TypeScript passed.
 - User authorized commit + push after final verification, including all pending technology-strip and favicon changes.
 - Pre-push regression verification passed: 18 desktop/mobile tests, 6 device-specific skips; two unchanged long-loop simulations were excluded from this rerun. Git remote was fetched and matched the existing local HEAD before creating this update commit. Credential-pattern scan found no matches in changed text files.
+
+## Hero social preview refinement
+- Social metadata now uses the production domain `ivanrozak.com` and versioned, directly accessible landscape PNGs, rather than the previous Vercel origin.
+- Sharing artwork mirrors the homepage hero: headline, approved portrait, supporting copy, and CTA; Twitter receives the matching 1200×600 variant.
+- Kept the old image endpoints as source-rendering compatibility routes. Added `scripts/export-social-images.mjs` for reproducible static exports after a build.

@@ -341,18 +341,26 @@ test("editorial rows retain alignment and dark footer stays readable and interac
 test("Open Graph and Twitter cards use real landscape images and correct page metadata", async ({ page, isMobile }) => {
   test.skip(isMobile);
   for (const route of ["/", "/projects"]) {
+    // Social crawlers must receive the image URL in server HTML without JavaScript.
+    const crawlerResponse = await page.request.get(route, { headers: { "user-agent": "WhatsApp/2.24" } });
+    expect(crawlerResponse.ok()).toBe(true);
+    const html = await crawlerResponse.text();
+    expect(html).toContain('property="og:image" content="https://ivanrozak.com/social/portfolio-og-v2.png"');
+    expect(html).toContain('name="twitter:image" content="https://ivanrozak.com/social/portfolio-twitter-v2.png"');
     await page.goto(route);
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
     await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
     await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
     const canonical = await page.locator('meta[property="og:url"]').getAttribute("content");
     expect(new URL(canonical!).pathname).toBe(route);
+    expect(new URL(canonical!).origin).toBe("https://ivanrozak.com");
     for (const [selector, pathname, height] of [
-      ['meta[property="og:image"]', "/opengraph-image", 630],
-      ['meta[name="twitter:image"]', "/twitter-image", 600],
+      ['meta[property="og:image"]', "/social/portfolio-og-v2.png", 630],
+      ['meta[name="twitter:image"]', "/social/portfolio-twitter-v2.png", 600],
     ] as const) {
       const url = new URL((await page.locator(selector).getAttribute("content"))!);
       expect(url.pathname).toBe(pathname);
+      expect(url.origin).toBe("https://ivanrozak.com");
       const response = await page.request.get(url.pathname + url.search);
       expect(response.ok()).toBe(true);
       expect(response.headers()["content-type"]).toContain("image/png");

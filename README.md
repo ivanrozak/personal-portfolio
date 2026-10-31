@@ -54,6 +54,8 @@ Icon sources: [React Icons](https://react-icons.github.io/react-icons/), [Simple
 
 ## Social previews
 
-Next.js renders dedicated PNG sharing cards at `/opengraph-image` (1200×630) and `/twitter-image` (1200×600). The shared layout in `lib/social-image.tsx` uses self-hosted Geist fonts and the existing approved portrait, with no external image/font requests at render time. Metadata defaults live in `lib/social-metadata.ts`; Projects overrides its title, description and URL while retaining the sharing images.
+Sharing metadata uses versioned public PNGs: `/social/portfolio-og-v2.png` (1200×630) and `/social/portfolio-twitter-v2.png` (1200×600), with `https://ivanrozak.com` as the canonical origin. The composition mirrors the homepage hero with its headline, portrait, supporting copy, and CTA. Direct static images avoid runtime font/portrait dependencies for social crawlers.
+
+The shared source in `lib/social-image.tsx` renders through the compatibility endpoints `/opengraph-image` and `/twitter-image`. After changing it, run `npm run build:preview` then `node scripts/export-social-images.mjs .next-preview` and commit the resulting public PNGs. Use a new filename when replacing artwork already cached by social platforms. Metadata defaults live in `lib/social-metadata.ts`; Projects overrides its title, description and URL while retaining the sharing images. Existing WhatsApp previews can remain cached after deployment; test with a newly shared URL (for example `https://ivanrozak.com/?preview=hero-v2`).
 
 Local exported previews are in `output/implementation/opengraph-image.png` and `twitter-image.png`.

@@ -9,7 +9,7 @@ import { openGraphDefaults, twitterDefaults } from "@/lib/social-metadata";
 import SiteShell from "@/component/portfolio/SiteShell";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ivan-rozak.vercel.app"),
+  metadataBase: new URL("https://ivanrozak.com"),
   title: { default: "Ivan Rozak — Fullstack Engineer", template: "%s | Ivan Rozak" },
   description:
     "I turn business ideas into websites and web apps, from the first interface to production. Explore selected work by Ivan Rozak, a fullstack engineer in Jakarta.",
