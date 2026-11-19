@@ -7,20 +7,20 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     icons: [
       {
-        src: "/web-app-manifest-192x192.png?v=ir",
+        src: "/web-app-manifest-192x192.png?v=i",
         sizes: "192x192",
         type: "image/png",
         purpose: "maskable",
       },
       {
-        src: "/web-app-manifest-512x512.png?v=ir",
+        src: "/web-app-manifest-512x512.png?v=i",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",
       },
     ],
-    theme_color: "#ffffff",
-    background_color: "#ffffff",
+    theme_color: "#0a0a0a",
+    background_color: "#0a0a0a",
     display: "standalone",
   };
 }

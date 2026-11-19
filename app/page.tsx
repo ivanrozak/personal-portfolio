@@ -15,7 +15,7 @@ export default function Home() {
   return <>
     <section className="hero" aria-labelledby="hero-heading" data-reveal="intro">
       <LocalTime />
-      <h1 id="hero-heading">Hi, I’m Ivan.<span>I turn ideas into working software.</span></h1>
+      <h1 id="hero-heading"><span className="hero-greeting">Hi, I’m <span className="hero-avatar" aria-hidden="true"><Image src="/static/hero-portrait.webp" alt="" fill sizes="(max-width: 640px) 64px, 100px" priority /></span> Ivan.</span><span>I like building useful software.</span></h1>
       <p className="hero-body">Software engineer from Jakarta, 5+ years in. Web, mobile, desktop, and real-time video, from the first screen to the server. These days I lead the web team at YesDok.</p>
       <div className="hero-footer">
         <SocialLinks />

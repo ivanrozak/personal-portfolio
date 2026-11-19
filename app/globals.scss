@@ -126,7 +126,6 @@
 /* Navigation */
 .site-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 40px; border-bottom: 1px solid var(--line); }
 .site-nav-identity { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; }
-.site-nav-identity img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: bottom; background: var(--bg-raised); }
 .site-nav-links { display: flex; align-items: center; gap: 28px; font-size: 14px; }
 .site-nav-links a { color: var(--fg-muted); transition: color 180ms; }
 .site-nav-links a:hover, .site-nav-links a[aria-current="page"] { color: var(--fg); }
@@ -135,7 +134,10 @@
 /* Hero */
 .hero { display: flex; flex-direction: column; gap: 32px; padding: 112px 40px 96px; border-bottom: 1px solid var(--line); }
 .hero h1 { font-size: clamp(40px, 5.6vw, 64px); line-height: 1.04; letter-spacing: -0.04em; }
-.hero h1 span { display: block; color: var(--fg-muted); }
+.hero h1 > span { display: block; color: var(--fg-muted); }
+.hero h1 > .hero-greeting { color: var(--fg); white-space: nowrap; }
+.hero-avatar { position: relative; display: inline-block; width: 1.47em; height: 0.9em; vertical-align: -0.12em; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--bg-raised); }
+.hero-avatar img { object-fit: cover; object-position: 50% 30%; }
 .hero-body { max-width: 720px; font-size: 18px; line-height: 1.65; color: var(--fg-muted); }
 .hero-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding-top: 8px; }
 .social-links { display: flex; align-items: center; gap: 8px; }
@@ -266,7 +268,7 @@
 @media (max-width: 640px) {
   .frame { width: 100%; border-inline: 0; }
   .site-nav { padding: 14px 24px; }
-  .site-nav-identity span { display: none; }
+  .site-nav-identity { font-size: 14px; }
   .site-nav-links { gap: 18px; font-size: 13px; }
   .section { padding: 56px 24px; }
   .hero { gap: 24px; padding: 64px 24px 56px; }
@@ -328,10 +330,10 @@
   [data-reveal="content"] > .company-badge { --reveal-y: 0px; }
 
   /* First section of a page: plays on load and on client navigation, without waiting for hydration. */
-  [data-reveal="intro"] > *, [data-reveal="intro"] h1 > span { animation: reveal-in 900ms var(--ease-out) both; animation-delay: calc(var(--reveal-start, 0ms) + var(--intro-i, 0) * 100ms); }
-  [data-reveal="intro"] h1, [data-reveal="intro"] h1 > span { --reveal-blur: 8px; }
+  [data-reveal="intro"] > *, [data-reveal="intro"] h1 > span:last-child { animation: reveal-in 900ms var(--ease-out) both; animation-delay: calc(var(--reveal-start, 0ms) + var(--intro-i, 0) * 100ms); }
+  [data-reveal="intro"] h1, [data-reveal="intro"] h1 > span:last-child { --reveal-blur: 8px; }
   @for $n from 2 through 6 { [data-reveal="intro"] > :nth-child(#{$n}) { --intro-i: #{$n - 1}; } }
-  [data-reveal="intro"] h1 > span { --intro-i: 2; }
+  [data-reveal="intro"] h1 > span:last-child { --intro-i: 2; }
 }
 @keyframes reveal-in { from { opacity: 0; transform: translate3d(0, var(--reveal-y, 16px), 0); filter: blur(var(--reveal-blur, 0px)); } to { opacity: 1; transform: none; filter: none; } }
 
