@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "lucide-react";
 import { openGraphDefaults, twitterDefaults } from "@/lib/social-metadata";
 import { projects, portfolioTagline } from "@/lib/data";
 import ProjectFilter from "@/component/ProjectFilter";
-import { BlurText, Reveal } from "@/component/portfolio/Reveal";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -13,9 +11,11 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectPage() {
-  return <div className="archive-page page-width">
-    <header className="archive-introduction"><h1><BlurText text="All projects" /></h1><Reveal delay={0.15}><p>{portfolioTagline}</p></Reveal></header>
+  return <>
+    <header className="archive-intro" data-reveal="intro">
+      <span className="mono">Projects · {projects.length}</span>
+      <h1>All projects.<span>Things I’ve helped build.</span></h1>
+    </header>
     <ProjectFilter projects={projects} />
-    <footer className="archive-footer"><h2>Have a project in mind?</h2><a className="text-link" href="mailto:ivanrozack@gmail.com">ivanrozack@gmail.com<ArrowUpRight size={19} /></a></footer>
-  </div>;
+  </>;
 }

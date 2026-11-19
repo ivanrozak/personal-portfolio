@@ -1,68 +1,68 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
-import { projects } from "@/lib/data";
-import { BlurText, Reveal } from "@/component/portfolio/Reveal";
-import ProjectMarquee from "@/component/portfolio/ProjectMarquee";
-import Services from "@/component/portfolio/Services";
-import EditorialRow from "@/component/portfolio/EditorialRow";
-import TechStack from "@/component/portfolio/TechStack";
-import HeroPortrait from "@/component/portfolio/HeroPortrait";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { FiCode } from "react-icons/fi";
+import { contact, experiences, featuredProjectTitles, projects } from "@/lib/data";
+import LocalTime from "@/component/portfolio/LocalTime";
+import SocialLinks from "@/component/portfolio/SocialLinks";
+import WorkCard from "@/component/portfolio/WorkCard";
 import { InquiryButton } from "@/component/portfolio/ProjectInquiry";
+import { revealIndex } from "@/lib/reveal";
 
-const featuredNames = ["Yuk Puncak", "Rintisan", "RasaRasa", "Pixelleven", "Kasheer", "Sign-it"];
-const featured = featuredNames.flatMap(title => projects.filter(project => project.title === title));
-const steps = [
-  { title: "Find the right scope", description: "We clarify your goals, users, and constraints, then define what to build first.", outcome: "A focused plan" },
-  { title: "Build & review", description: "The interface and systems take shape together, with room to review the work as it develops.", outcome: "Working software" },
-  { title: "Launch & hand over", description: "Deploy the product, verify the important flows, and make the next steps clear for your team.", outcome: "A production handover" },
-];
-const history = [
-  { company: "YesDok Indonesia", date: "2022 — Present", role: "Fullstack Developer", description: "Telemedicine, real-time systems, and B2B integrations." },
-  { company: "Independent client work", date: "2023 — Present", role: "Freelance Fullstack Developer", description: "Company websites, dashboards, and digital products." },
-  { company: "Nashta Global Utama", date: "2020 — 2021", role: "Fullstack Developer", description: "National trade and customs infrastructure." },
-];
+const featured = featuredProjectTitles.flatMap(title => projects.filter(project => project.title === title));
 
 export default function Home() {
   return <>
-    <section className="hero" aria-labelledby="hero-heading">
-      <div className="page-width">
-        <div className="hero-main">
-          <div className="hero-copy">
-            <h1 id="hero-heading"><BlurText text={"Your next idea.\nBuilt for the\nreal world."} /></h1>
-            <Reveal delay={0.28}><p className="hero-introduction">I’m Ivan, a fullstack engineer. I turn business ideas into websites and web apps—from the first interface to production.</p></Reveal>
-            <Reveal delay={0.4} className="hero-actions">
-              <InquiryButton className="button button-primary">Discuss your project<span className="button-arrow"><ArrowUpRight size={22} /></span></InquiryButton>
-              <a className="text-link hero-secondary" href="#projects">View my work<ArrowDown size={17} /></a>
-            </Reveal>
+    <section className="hero" aria-labelledby="hero-heading" data-reveal="intro">
+      <LocalTime />
+      <h1 id="hero-heading">Hi, I’m Ivan.<span>I turn ideas into working software.</span></h1>
+      <p className="hero-body">Software engineer from Jakarta, 5+ years in. Web, mobile, desktop, and real-time video, from the first screen to the server. These days I lead the web team at YesDok.</p>
+      <div className="hero-footer">
+        <SocialLinks />
+        <span className="divider-vertical" aria-hidden="true" />
+        <p className="status"><span className="status-dot" aria-hidden="true" />Open for new projects</p>
+      </div>
+    </section>
+
+    <section id="projects" className="work-section" aria-labelledby="projects-heading">
+      <div className="section-header">
+        <div data-reveal><span className="mono section-label">01</span><h2 id="projects-heading" className="section-title">Selected work</h2></div>
+        <span className="reveal-wrap" data-reveal style={revealIndex(1)}><Link href="/projects" className="pill" aria-label="All projects"><span>All<span className="hide-mobile"> projects</span></span><ArrowUpRight size={14} aria-hidden="true" /></Link></span>
+      </div>
+      <div className="work-grid">{featured.map((project, index) => <WorkCard key={project.title} project={project} revealIndex={index} />)}</div>
+    </section>
+
+    <section id="experience" className="section experience" aria-labelledby="experience-heading">
+      <div className="experience-intro" data-reveal>
+        <span className="mono section-label">02</span>
+        <h2 id="experience-heading" className="section-title">Experience</h2>
+        <Link href="/resume" className="text-arrow">Full resume<ArrowRight size={14} aria-hidden="true" /></Link>
+      </div>
+      <ul className="experience-list" role="list">
+        {experiences.map((item, index) => <li key={item.company} className="experience-row" data-reveal="content" style={revealIndex(index)}>
+          <span className="company-badge" aria-hidden="true">{item.logo ? <Image src={item.logo} alt="" width={56} height={56} /> : <FiCode size={18} />}</span>
+          <div className="experience-text">
+            <h3 className="experience-company">{item.company}</h3>
+            <p className="experience-role">{item.role}</p>
+            <p className="mono-plain experience-period">{item.period}</p>
           </div>
-          <HeroPortrait />
+        </li>)}
+      </ul>
+    </section>
+
+    <section id="contact" className="contact" aria-labelledby="contact-heading" data-reveal="content">
+      <div>
+        <span className="mono section-label">03</span>
+        <h2 id="contact-heading">Have a project or<br />a role in mind?<span data-reveal style={revealIndex(1)}>Let’s talk.</span></h2>
+      </div>
+      <div className="contact-details">
+        <p>I help teams build websites, web apps and dashboards, and real-time features. An early idea is enough to start.</p>
+        <div className="contact-actions">
+          <InquiryButton className="pill pill-primary">Email me<ArrowUpRight size={14} aria-hidden="true" /></InquiryButton>
+          <a className="pill" href={contact.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
         </div>
-        <TechStack />
+        <a className="mono-plain contact-email" href={`mailto:${contact.email}`}>{contact.email}</a>
       </div>
     </section>
-    <ProjectMarquee projects={featured} />
-    <section id="services" className="services section-space" aria-labelledby="services-heading">
-      <div className="page-width split-section">
-        <div className="section-introduction"><h2 id="services-heading"><BlurText text={"What do you\nwant to build?"} /></h2><p>A new product, a better website, or a system that finally fits the way your business works.</p><InquiryButton className="text-link">Let’s find the right approach<ArrowUpRight size={18} /></InquiryButton></div>
-        <Reveal><Services /></Reveal>
-      </div>
-    </section>
-    <section className="process editorial-process" aria-labelledby="process-heading">
-      <div className="page-width">
-        <div className="process-introduction"><h2 id="process-heading"><BlurText text={"A clear path\nfrom idea to launch."} /></h2><Reveal delay={0.1}><p>Start with the problem. Agree on the scope.{" "}<br className="desktop-break" />Build something your team can use.</p></Reveal></div>
-        <div className="process-steps">{steps.map((step, i) => <EditorialRow key={step.title} className="process-step"><div className="step-identity" data-editorial-cell><span className="step-number">0{i + 1}</span><h3>{step.title}</h3></div><p data-editorial-cell>{step.description}</p><span className="step-outcome" data-editorial-cell>{step.outcome}</span></EditorialRow>)}</div>
-      </div>
-    </section>
-    <section id="about" className="about-section editorial-about" aria-labelledby="about-heading"><div className="page-width editorial-about-grid">
-      <div className="section-introduction"><h2 id="about-heading"><BlurText text={"One engineer.\nThe whole picture."} /></h2><p>I work across the interface, backend, and infrastructure. That means fewer gaps between how a product looks, how it works, and how it gets to your users.</p></div>
-      <div className="experience-list">{history.map(item => <EditorialRow key={item.company} className="experience-row"><h3 data-editorial-cell>{item.company}</h3><span className="experience-date" data-editorial-cell>{item.date}</span><p className="experience-role" data-editorial-cell>{item.role}</p><p className="experience-description" data-editorial-cell>{item.description}</p></EditorialRow>)}</div>
-    </div></section>
-    <section id="contact" className="contact-section" aria-labelledby="contact-heading"><div className="page-width">
-      <div className="contact-main">
-        <div className="contact-invitation"><h2 id="contact-heading"><BlurText text={"Let’s build\nyour next chapter."} /></h2><p>Have a project in mind or an existing product that needs a better foundation? Tell me what you’re working on.</p><InquiryButton className="button button-light">Discuss your project<ArrowUpRight size={20} /></InquiryButton><a className="contact-email" href="mailto:ivanrozack@gmail.com">ivanrozack@gmail.com</a></div>
-        <Reveal className="brief-guidance"><h3>A good place to start</h3><ul>{["What are you building, and who is it for?", "What needs to change or work better?", "Do you have a timeline or budget in mind?"].map(question => <li key={question}><ArrowRight size={17} /><span>{question}</span></li>)}</ul><p>An early idea is enough to start the conversation.</p></Reveal>
-      </div>
-      <footer className="site-footer"><Link href="/" className="wordmark">ivan rozak.</Link><p>Based in Jakarta, Indonesia</p><nav aria-label="Social links"><a href="https://github.com/ivanrozak/" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/ivan-rozak/" target="_blank" rel="noopener noreferrer">LinkedIn</a><Link href="/blog">Blog</Link></nav></footer>
-    </div></section>
   </>;
 }
