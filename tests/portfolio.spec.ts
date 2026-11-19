@@ -7,24 +7,72 @@ test.beforeEach(async ({ page }) => {
 });
 test.afterEach(() => expect(errors).toEqual([]));
 
-test("homepage has the approved sections and complete project archive navigation", async ({ page, isMobile }) => {
+const fitsViewport = (page: import("@playwright/test").Page) => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
+
+test("homepage shows the hero, selected work, experience, and contact", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Your next idea.");
-  await expect(page.locator("#projects")).toBeVisible();
-  await expect(page.locator("#services")).toBeVisible();
-  await expect(page.locator("#about")).toBeVisible();
+  const heading = page.getByRole("heading", { level: 1 });
+  await expect(heading).toContainText("Hi, I’m Ivan.");
+  await expect(heading).toContainText("I turn ideas into working software.");
+  await expect(page.getByText("Jakarta, ID · GMT+7")).toBeVisible();
+  await expect(page.getByText(/\d{2}:\d{2}/).first()).toBeVisible();
+  for (const label of ["LinkedIn", "GitHub", "Email", "Resume (PDF)"]) await expect(page.locator(".hero").getByRole("link", { name: label, exact: true })).toBeVisible();
+  await expect(page.locator("#projects .work-card")).toHaveCount(3);
+  for (const title of ["Yuk Puncak", "Geolitix", "Pixelleven"]) await expect(page.locator("#projects").getByRole("heading", { name: title })).toBeVisible();
+  await expect(page.locator("#projects").getByText("YesDok")).toHaveCount(0);
+  await expect(page.locator("#experience .experience-row")).toHaveCount(5);
+  await expect(page.locator("#experience")).toContainText("Daruma");
+  await expect(page.locator("#experience")).toContainText("Lead Web Developer");
   await expect(page.locator("#contact")).toBeVisible();
+  await expect(page.getByRole("link", { name: "WhatsApp" })).toHaveAttribute("href", "https://wa.me/6281234136030");
   await expect(page.locator("html")).toHaveClass(/lenis/);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  const image = page.getByAltText("Ivan Rozak", { exact: true });
-  await expect(image).toBeVisible();
-  await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
-  const link = page.locator(isMobile ? ".mobile-archive-link a" : ".desktop-archive-link");
-  await link.click();
+  expect(await fitsViewport(page)).toBe(true);
+  await page.getByRole("link", { name: "All projects" }).click();
   await expect(page).toHaveURL(/\/projects$/);
   await expect(page.locator(".archive-project")).toHaveCount(12);
-  await page.getByRole("link", { name: "Back to home" }).click();
+});
+
+test("navigation reaches every page and the theme toggle switches and remembers the theme", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  const nav = page.getByRole("navigation", { name: "Main navigation" });
+  await nav.getByRole("link", { name: "Resume" }).click();
+  await expect(page).toHaveURL(/\/resume$/);
+  await expect(nav.getByRole("link", { name: "Resume" })).toHaveAttribute("aria-current", "page");
+  await page.getByRole("button", { name: "Switch to light theme" }).click();
+  await expect(page.locator("html")).not.toHaveClass(/dark/);
+  await nav.getByRole("link", { name: "Projects" }).click();
+  await expect(page).toHaveURL(/\/projects$/);
+  await expect(page.locator("html")).not.toHaveClass(/dark/);
+  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await page.getByRole("link", { name: "Ivan Rozak home" }).click();
   await expect(page).toHaveURL(/\/$/);
+});
+
+test("resume page matches the CV and offers the PDF", async ({ page }) => {
+  await page.goto("/resume");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Ivan Rozak");
+  await expect(page.getByText("Open to full-time and remote roles")).toBeVisible();
+  for (const company of ["PT Yesdok Indonesia", "Rintisan", "Daruma", "PT Nashta Global Utama"]) await expect(page.getByRole("heading", { name: company })).toBeVisible();
+  await expect(page.getByText("Lead Web Developer (2023 — Present)", { exact: false })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "YukPuncak" })).toBeVisible();
+  await expect(page.getByText(/case study/i)).toHaveCount(0);
+  await expect(page.getByText("Frontend Engineer · 6-month contract")).toBeVisible();
+  await expect(page.getByText("Resume · Updated", { exact: false })).toBeVisible();
+  const pdf = page.getByRole("link", { name: "Download PDF" });
+  await expect(pdf).toHaveAttribute("href", "/Ivan_Rozak_CV.pdf");
+  const response = await page.request.get("/Ivan_Rozak_CV.pdf");
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toContain("application/pdf");
+  expect(await fitsViewport(page)).toBe(true);
+});
+
+test("old about and cv URLs redirect to the resume", async ({ page }) => {
+  for (const route of ["/about", "/cv"]) {
+    await page.goto(route);
+    await expect(page).toHaveURL(/\/resume$/);
+  }
 });
 
 test("archive search and category combine, recover from empty results, and preserve scope", async ({ page }) => {
@@ -45,116 +93,7 @@ test("archive search and category combine, recover from empty results, and prese
   await expect(page.locator(".archive-project")).toHaveCount(10);
   await expect(page.locator(".archive-project").filter({ has: page.getByRole("heading", { name: "Kasheer", exact: true }) })).toContainText("Website Developer");
   await page.getByRole("button", { name: "All", exact: false }).first().click();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-});
-
-test("service accordion is keyboard operable and updates its expanded panel", async ({ page }) => {
-  await page.goto("/");
-  const trigger = page.getByRole("button", { name: "Web apps & business tools" });
-  await trigger.focus();
-  await page.keyboard.press("Enter");
-  await expect(trigger).toHaveAttribute("aria-expanded", "true");
-  await expect(page.getByRole("region", { name: "Web apps & business tools" })).toContainText("Rintisan Billing");
-  await expect(page.getByRole("button", { name: "Websites that work harder" })).toHaveAttribute("aria-expanded", "false");
-});
-
-test("desktop marquee pauses and resumes continuously without reversing or jumping", async ({ page, isMobile }) => {
-  test.skip(isMobile);
-  await page.goto("/");
-  const section = page.locator("#projects");
-  await section.scrollIntoViewIfNeeded();
-  await page.mouse.move(1, 1);
-  const sample = (duration: number) => page.evaluate(duration => new Promise<{ time: number; x: number[]; width: number }[]>(resolve => {
-    const tracks = Array.from(document.querySelectorAll<HTMLElement>(".marquee-track"));
-    const rows: { time: number; x: number[]; width: number }[] = [];
-    const start = performance.now();
-    const tick = () => {
-      rows.push({ time: performance.now(), x: tracks.map(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41), width: tracks[0].querySelector(".marquee-group")!.getBoundingClientRect().width });
-      if (performance.now() - start < duration) requestAnimationFrame(tick); else resolve(rows);
-    };
-    requestAnimationFrame(tick);
-  }), duration);
-  const verify = (rows: Awaited<ReturnType<typeof sample>>) => {
-    for (let i = 1; i < rows.length; i++) {
-      for (let track = 0; track < 2; track++) {
-        const width = rows[i].width;
-        let delta = rows[i].x[track] - rows[i - 1].x[track];
-        delta -= Math.round(delta / width) * width;
-        expect(delta * (track === 0 ? -1 : 1)).toBeGreaterThanOrEqual(-0.025);
-        expect(Math.abs(delta)).toBeLessThanOrEqual(20 * Math.min(rows[i].time - rows[i - 1].time, 40) / 1000 + 0.1);
-      }
-    }
-  };
-  await section.hover({ position: { x: 30, y: 40 } });
-  await expect(section).toHaveAttribute("data-motion-state", "running");
-  const moving = await sample(250);
-  verify(moving);
-  expect(Math.abs(moving.at(-1)!.x[0] - moving[0].x[0])).toBeGreaterThan(2);
-  const card = page.locator('.marquee-group:not([aria-hidden]) .preview-card').first();
-  for (let cycle = 0; cycle < 3; cycle++) {
-    await card.hover({ force: true });
-    await expect(section).toHaveAttribute("data-motion-state", "paused");
-    const braking = await sample(450);
-    verify(braking);
-    expect(Math.abs(braking.at(-1)!.x[0] - braking.at(-3)!.x[0])).toBeLessThan(0.025);
-    await expect(card.locator(".preview-image img")).toHaveCSS("transform", "none");
-    await section.hover({ position: { x: 30, y: 40 } });
-    await expect(section).toHaveAttribute("data-motion-state", "running");
-    verify(await sample(450));
-  }
-  const rapid = sample(900);
-  for (let i = 0; i < 4; i++) {
-    await card.hover({ force: true });
-    await page.waitForTimeout(40);
-    await section.hover({ position: { x: 30, y: 40 } });
-    await page.waitForTimeout(40);
-  }
-  verify(await rapid);
-  await card.focus();
-  await expect(section).toHaveAttribute("data-motion-state", "paused");
-  await expect.poll(async () => (await card.boundingBox())?.x).toBeGreaterThanOrEqual(-1);
-  await page.getByRole("button", { name: "Pause motion" }).click();
-  await page.mouse.move(1, 1);
-  await expect(section).toHaveAttribute("data-paused", "true");
-  verify(await sample(300));
-  await page.getByRole("button", { name: "Resume motion" }).click();
-  await expect(section).toHaveAttribute("data-motion-state", "running");
-  verify(await sample(450));
-  await expect(page.locator('.marquee-group[aria-hidden="true"] a:not([tabindex="-1"])')).toHaveCount(0);
-});
-
-test("mobile uses native manual swipe with readable descriptions and working navigation", async ({ page, isMobile, context }) => {
-  test.skip(!isMobile);
-  await page.goto("/");
-  await expect(page.locator(".marquee-desktop")).toBeHidden();
-  const swipe = page.locator(".project-swipe");
-  await swipe.scrollIntoViewIfNeeded();
-  await expect(swipe.locator(".touch-description").first()).toBeVisible();
-  expect(await swipe.evaluate(element => element.scrollLeft)).toBe(0);
-  const box = await swipe.boundingBox();
-  if (!box) throw new Error("Swipe area missing");
-  const client = await context.newCDPSession(page);
-  const y = box.y + 70;
-  await client.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: 315, y }] });
-  for (const x of [275, 225, 175, 125, 75]) {
-    await client.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x, y }] });
-  }
-  await client.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
-  await expect.poll(() => swipe.evaluate(element => element.scrollLeft)).toBeGreaterThan(150);
-  await page.getByRole("button", { name: "Open menu" }).click();
-  await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("link", { name: "About", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Open menu" })).toHaveAttribute("aria-expanded", "false");
-  await expect(page).toHaveURL(/#about$/);
-});
-
-test("reduced motion disables smooth scrolling and replaces autoplay with manual exploration", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
-  await expect(page.locator("html")).not.toHaveClass(/lenis/);
-  await expect(page.locator(".marquee-desktop")).toBeHidden();
-  await expect(page.locator(".project-swipe")).toBeVisible();
-  await expect(page.locator(".hero [data-word]").first()).toHaveCSS("filter", "none");
-  await expect(page.locator(".hero [data-word]").first()).toHaveCSS("opacity", "1");
+  expect(await fitsViewport(page)).toBe(true);
 });
 
 test("content remains visible without JavaScript", async ({ browser, baseURL, isMobile }) => {
@@ -163,72 +102,43 @@ test("content remains visible without JavaScript", async ({ browser, baseURL, is
   const page = await context.newPage();
   await page.goto(`${baseURL}/`);
   await expect(page.locator("h1")).toBeVisible();
-  await expect(page.locator(".hero [data-word]").first()).toHaveCSS("opacity", "1");
+  await expect(page.locator(".hero-body")).toBeVisible();
+  await expect(page.locator("#projects .work-card")).toHaveCount(3);
   await page.goto(`${baseURL}/projects`);
   await expect(page.locator(".archive-project")).toHaveCount(12);
+  await page.goto(`${baseURL}/resume`);
+  await expect(page.locator(".resume-entry").first()).toBeVisible();
   await context.close();
 });
 
-test("heading reveal combines blur and movement, then settles to sharp readable text", async ({ page, isMobile }) => {
-  test.skip(isMobile);
-  await page.addInitScript(() => {
-    const samples: { filter: string; transform: string }[] = [];
-    (window as Window & { revealSamples?: typeof samples }).revealSamples = samples;
-    let frames = 0;
-    const sample = () => {
-      const word = document.querySelector(".hero [data-word]");
-      if (word) {
-        const style = getComputedStyle(word);
-        samples.push({ filter: style.filter, transform: style.transform });
-        frames++;
-      }
-      if (frames < 100) requestAnimationFrame(sample);
-    };
-    requestAnimationFrame(sample);
-  });
+test("scroll reveals finish everywhere and are switched off for reduced motion", async ({ page, browser, baseURL }) => {
   await page.goto("/");
-  await expect.poll(() => page.evaluate(() => (window as Window & { revealSamples?: { filter: string }[] }).revealSamples?.some(sample => sample.filter !== "none" && sample.filter !== "blur(0px)"))).toBe(true);
-  await expect(page.locator(".hero [data-word]").first()).toHaveCSS("filter", "blur(0px)");
-  await expect(page.locator(".hero [data-word]").first()).toHaveCSS("opacity", "1");
-});
-
-test("keyboard focus brings offscreen marquee cards into view even late in the loop", async ({ page, isMobile }) => {
-  test.skip(isMobile);
-  test.setTimeout(120000);
-  await page.clock.install();
-  await page.goto("/");
-  await page.locator("#projects").scrollIntoViewIfNeeded();
-  await page.mouse.move(1, 1);
-  await page.clock.runFor(60000);
-  const card = page.locator('.marquee-group:not([aria-hidden])').first().locator("a").first();
-  await card.focus();
-  await page.clock.runFor(350);
-  await expect.poll(async () => (await card.boundingBox())?.x).toBeGreaterThanOrEqual(0);
-  const reverseCard = page.locator('.marquee-window-reverse .marquee-group:not([aria-hidden])').first().locator("a").first();
-  await reverseCard.focus();
-  await page.clock.runFor(350);
-  await expect.poll(async () => (await reverseCard.boundingBox())?.x).toBeGreaterThanOrEqual(0);
-  await page.setViewportSize({ width: 820, height: 1000 });
-  const lastCard = page.locator('.marquee-group:not([aria-hidden])').first().locator("a").last();
-  await lastCard.focus();
-  await page.clock.runFor(350);
-  await expect.poll(async () => { const box = await lastCard.boundingBox(); return box ? box.x + box.width : 10000; }).toBeLessThanOrEqual(820);
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "on");
+  for (let y = 0; y <= 6000; y += 500) { await page.evaluate(top => window.scrollTo(0, top), y); await page.waitForTimeout(80); }
+  await expect(page.locator("[data-reveal]:not([data-revealed])")).toHaveCount(0);
+  await expect(page.locator("#experience .experience-row").last().locator(".experience-text")).toHaveCSS("opacity", "1");
+  const context = await browser.newContext({ reducedMotion: "reduce" });
+  const reduced = await context.newPage();
+  await reduced.goto(`${baseURL}/`);
+  await expect(reduced.locator("html")).not.toHaveAttribute("data-motion", "on");
+  await expect(reduced.locator("#experience .experience-row").last().locator(".experience-text")).toHaveCSS("opacity", "1");
+  await context.close();
 });
 
 test("responsive layouts fit narrow phones and intermediate screens", async ({ page, isMobile }) => {
   test.skip(isMobile);
   for (const width of [320, 768, 1024]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const route of ["/", "/projects"]) {
+    for (const route of ["/", "/projects", "/resume"]) {
       await page.goto(route);
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+      expect(await fitsViewport(page)).toBe(true);
     }
   }
 });
 
-test("project enquiry dialog validates, prepares a complete email brief, and restores focus", async ({ page, isMobile }) => {
+test("project enquiry dialog validates, prepares a complete email brief, and restores focus", async ({ page }) => {
   await page.goto("/");
-  const trigger = page.getByRole("button", { name: "Discuss your project", exact: true }).first();
+  const trigger = page.locator("#contact").getByRole("button", { name: "Email me" });
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Let’s build something." });
   await expect(dialog).toBeVisible();
@@ -255,98 +165,28 @@ test("project enquiry dialog validates, prepares a complete email brief, and res
   await expect(dialog.getByLabel("Your name", { exact: true })).toHaveValue("Alex Morgan");
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
-  if (isMobile) {
-    await page.getByRole("button", { name: "Open menu" }).click();
-    await page.getByRole("navigation", { name: "Mobile navigation" }).getByRole("button", { name: "Let’s talk" }).click();
-    await expect(dialog).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(dialog).not.toBeVisible();
-    await expect(page.getByRole("button", { name: "Open menu" })).toBeFocused();
-  }
 });
 
-test("marquee loop seams preserve visual phase in both directions", async ({ page, isMobile }) => {
-  test.skip(isMobile);
-  test.setTimeout(120000);
-  await page.clock.install();
+test("sitemap, robots, and structured data are published", async ({ page }) => {
+  const sitemap = await (await page.request.get("/sitemap.xml")).text();
+  for (const path of ["/", "/resume", "/projects"]) expect(sitemap).toContain(`<loc>https://ivanrozak.com${path}</loc>`);
+  const robots = await (await page.request.get("/robots.txt")).text();
+  expect(robots).toContain("Sitemap: https://ivanrozak.com/sitemap.xml");
   await page.goto("/");
-  await page.mouse.move(1, 1);
-  await page.clock.runFor(500);
-  await page.evaluate(() => {
-    const tracks = Array.from(document.querySelectorAll<HTMLElement>(".marquee-track"));
-    const width = tracks[0].querySelector(".marquee-group")!.getBoundingClientRect().width;
-    const result = { seams: [0, 0], backwards: [0, 0], maxStep: [0, 0], frames: 0 };
-    (window as Window & { loopResult?: typeof result }).loopResult = result;
-    let previous = tracks.map(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41);
-    const tick = () => {
-      const next = tracks.map(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41);
-      for (let i = 0; i < next.length; i++) {
-        let delta = next[i] - previous[i];
-        if (Math.abs(delta) > width / 2) result.seams[i]++;
-        delta -= Math.round(delta / width) * width;
-        if (delta * (i === 0 ? -1 : 1) < -0.025) result.backwards[i]++;
-        result.maxStep[i] = Math.max(result.maxStep[i], Math.abs(delta));
-      }
-      previous = next;
-      result.frames++;
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  });
-  await page.clock.runFor(90000);
-  const result = await page.evaluate(() => (window as Window & { loopResult?: { seams: number[]; backwards: number[]; maxStep: number[]; frames: number } }).loopResult!);
-  expect(result.frames).toBeGreaterThan(3000);
-  expect(result.seams.every(value => value > 0)).toBe(true);
-  expect(result.backwards).toEqual([0, 0]);
-  expect(result.maxStep.every(value => value < 0.9)).toBe(true);
-});
-
-test("editorial rows retain alignment and dark footer stays readable and interactive", async ({ page, isMobile }) => {
-  await page.goto("/");
-  await expect(page.locator(".process-step")).toHaveCount(3);
-  await expect(page.locator(".experience-row")).toHaveCount(3);
-  await page.locator(".process-step").first().scrollIntoViewIfNeeded();
-  await expect(page.locator(".process-step [data-editorial-cell]").first()).toHaveCSS("opacity", "1");
-  const layout = await page.locator(".process-step").first().evaluate(element => ({
-    columns: getComputedStyle(element).gridTemplateColumns.split(" ").length,
-    height: element.getBoundingClientRect().height,
-  }));
-  expect(layout.columns).toBe(isMobile ? 2 : 3);
-  if (!isMobile) expect(layout.height).toBeGreaterThanOrEqual(136);
-  await expect(page.locator(".editorial-about")).toHaveCSS("background-color", "rgb(244, 244, 244)");
-  const footer = page.locator("#contact");
-  await footer.scrollIntoViewIfNeeded();
-  await expect(footer).toHaveCSS("background-color", "rgb(18, 18, 18)");
-  const contrast = await footer.evaluate(root => {
-    const rgb = (value: string) => value.match(/[\d.]+/g)!.slice(0, 3).map(Number);
-    const luminance = (value: number[]) => value.reduce((sum, channel, i) => {
-      const s = channel / 255;
-      return sum + (s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4) * [0.2126, 0.7152, 0.0722][i];
-    }, 0);
-    const ratio = (a: number[], b: number[]) => { const l = [luminance(a), luminance(b)].sort((x, y) => y - x); return (l[0] + 0.05) / (l[1] + 0.05); };
-    const background = rgb(getComputedStyle(root).backgroundColor);
-    const text = Array.from(root.querySelectorAll("h2,h3,p,li,a")).map(element => ratio(rgb(getComputedStyle(element).color), background));
-    const button = root.querySelector("button")!;
-    return { text: Math.min(...text), button: ratio(rgb(getComputedStyle(button).color), rgb(getComputedStyle(button).backgroundColor)) };
-  });
-  expect(contrast.text).toBeGreaterThanOrEqual(4.5);
-  expect(contrast.button).toBeGreaterThanOrEqual(4.5);
-  await footer.getByRole("button", { name: "Discuss your project" }).click();
-  await expect(page.getByRole("dialog")).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog")).not.toBeVisible();
-  await expect(footer.getByRole("button", { name: "Discuss your project" })).toBeFocused();
+  const schema = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
+  expect(schema["@type"]).toBe("Person");
+  expect(schema.jobTitle).toBe("Software Engineer");
 });
 
 test("Open Graph and Twitter cards use real landscape images and correct page metadata", async ({ page, isMobile }) => {
   test.skip(isMobile);
-  for (const route of ["/", "/projects"]) {
+  for (const route of ["/", "/projects", "/resume"]) {
     // Social crawlers must receive the image URL in server HTML without JavaScript.
     const crawlerResponse = await page.request.get(route, { headers: { "user-agent": "WhatsApp/2.24" } });
     expect(crawlerResponse.ok()).toBe(true);
     const html = await crawlerResponse.text();
-    expect(html).toContain('property="og:image" content="https://ivanrozak.com/social/portfolio-og-v2.png"');
-    expect(html).toContain('name="twitter:image" content="https://ivanrozak.com/social/portfolio-twitter-v2.png"');
+    expect(html).toContain('property="og:image" content="https://ivanrozak.com/social/portfolio-og-v3.png"');
+    expect(html).toContain('name="twitter:image" content="https://ivanrozak.com/social/portfolio-twitter-v3.png"');
     await page.goto(route);
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
     await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
@@ -355,8 +195,8 @@ test("Open Graph and Twitter cards use real landscape images and correct page me
     expect(new URL(canonical!).pathname).toBe(route);
     expect(new URL(canonical!).origin).toBe("https://ivanrozak.com");
     for (const [selector, pathname, height] of [
-      ['meta[property="og:image"]', "/social/portfolio-og-v2.png", 630],
-      ['meta[name="twitter:image"]', "/social/portfolio-twitter-v2.png", 600],
+      ['meta[property="og:image"]', "/social/portfolio-og-v3.png", 630],
+      ['meta[name="twitter:image"]', "/social/portfolio-twitter-v3.png", 600],
     ] as const) {
       const url = new URL((await page.locator(selector).getAttribute("content"))!);
       expect(url.pathname).toBe(pathname);

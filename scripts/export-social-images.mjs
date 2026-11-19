@@ -5,8 +5,8 @@ import { join } from "node:path";
 const distDir = process.argv[2] || ".next";
 await mkdir("public/social", { recursive: true });
 for (const [route, file] of [
-  ["opengraph-image", "portfolio-og-v2.png"],
-  ["twitter-image", "portfolio-twitter-v2.png"],
+  ["opengraph-image", "portfolio-og-v3.png"],
+  ["twitter-image", "portfolio-twitter-v3.png"],
 ]) {
   await copyFile(join(distDir, "server/app", `${route}.body`), join("public/social", file));
   console.log(`Exported ${file}`);

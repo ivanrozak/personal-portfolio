@@ -3,6 +3,8 @@ export type ProjectCategory = "professional" | "experiment" | "team" | "open-sou
 export interface Project {
   title: string;
   subtitle?: string;
+  /** Short label shown in mono above a featured card, e.g. "Product" or "Website". */
+  kind?: string;
   year?: string;
   description: string;
   previewDescription?: string;
@@ -15,59 +17,56 @@ export interface Project {
 }
 
 export interface Experience {
-  position: string;
   company: string;
+  role: string;
+  period: string;
   logo?: string;
-  period: string;
-  type?: "fulltime" | "freelance" | "contract";
-  description?: string;
-  tech?: string[];
-}
-
-export interface Education {
-  degree: string;
-  major: string;
-  school: string;
-  period: string;
 }
 
 export const portfolioTagline = "A collection of websites and products I’ve helped build.";
 
+export const featuredProjectTitles = ["Yuk Puncak", "Geolitix", "Pixelleven"];
+
 export const projects: Project[] = [
   {
     "title": "Rintisan",
-    "previewDescription": "A clearer home for digital business products and services.",
+    "previewDescription": "A business-platform website, migrated from Vue 3 to Nuxt with SSR and TypeScript.",
     "subtitle": "Business platform website",
-    "year": "2023",
+    "kind": "Website",
+    "year": "2025",
     "category": "professional",
-    "role": "Frontend Engineer",
+    "role": "Fullstack Engineer",
     "tech": [
       "Nuxt.js",
       "TypeScript",
       "SSR"
     ],
-    "description": "A business-platform website bringing digital products and services into one clear online presence.",
+    "description": "A business-platform website, migrated from Vue 3 to Nuxt with SSR and TypeScript.",
     "image": "/static/projects/rintisan.webp",
     "url": "https://rintisan.co.id"
   },
   {
     "title": "Rintisan Billing",
+    "previewDescription": "An invoicing and payments dashboard, migrated to Nuxt with TanStack Query.",
     "subtitle": "Invoicing & payments",
-    "year": "2023",
+    "kind": "Web app",
+    "year": "2025",
     "category": "professional",
-    "role": "Frontend Engineer",
+    "role": "Fullstack Engineer",
     "tech": [
       "Nuxt.js",
       "TypeScript",
       "TanStack Query"
     ],
-    "description": "An invoicing and payments product, with a dashboard migrated to Nuxt, TypeScript, and TanStack Query.",
+    "description": "An invoicing and payments dashboard, migrated to Nuxt and TypeScript with TanStack Query for client-side caching.",
     "image": "/static/projects/billing.webp",
     "url": "https://billing.rintisan.co.id"
   },
   {
     "title": "Daruma",
+    "previewDescription": "A B2B commerce platform with catalog, ordering, and payment flows.",
     "subtitle": "B2B e-commerce",
+    "kind": "Web app",
     "year": "2023",
     "category": "professional",
     "role": "Frontend Engineer",
@@ -82,8 +81,9 @@ export const projects: Project[] = [
   },
   {
     "title": "RasaRasa",
-    "previewDescription": "A website connecting culinary spaces, food brands, and thematic events.",
+    "previewDescription": "A foodcourt website connecting culinary spaces, food brands, and events.",
     "subtitle": "Foodcourt & culinary spaces",
+    "kind": "Website",
     "category": "professional",
     "role": "Website Developer",
     "tech": [],
@@ -93,48 +93,59 @@ export const projects: Project[] = [
   },
   {
     "title": "Yuk Puncak",
-    "previewDescription": "A villa-booking platform, built from customer experience to infrastructure.",
+    "previewDescription": "Villa booking with web, admin, API, and mobile apps. Built solo.",
     "subtitle": "Villa booking platform",
+    "kind": "Product",
     "year": "2026",
     "category": "experiment",
     "role": "Solo Engineer",
     "tech": [
       "Next.js",
       "Hono",
-      "React Native",
       "PostgreSQL",
       "Redis",
+      "Kotlin Multiplatform",
       "Dokploy"
     ],
-    "description": "A villa-booking and property-management platform, built solo across customer web, admin tools, API, mobile, and infrastructure.",
+    "description": "A villa-booking and property-management platform, built solo across customer web, admin tools, API, mobile apps on both stores, and infrastructure.",
     "image": "/static/projects/yukpuncak.webp",
     "url": "https://yukpuncak.com"
   },
   {
     "title": "Pixelleven",
-    "previewDescription": "A personal photobooth project for memorable events.",
-    "subtitle": "Photobooth experience",
+    "previewDescription": "Photobooth system: a .NET camera app, dashboard, and API.",
+    "subtitle": "Photobooth system",
+    "kind": "Product",
+    "year": "2026",
     "category": "experiment",
-    "role": "Independent Project",
-    "tech": [],
-    "description": "A personal photobooth venture with event packages, custom-frame inspiration, and a clear path to WhatsApp booking.",
+    "role": "Solo Engineer",
+    "tech": [
+      ".NET",
+      "Next.js",
+      "Hono"
+    ],
+    "description": "A photobooth system: a Windows app in .NET that controls a Canon DSLR for capture and printing, plus a dashboard and API for event sessions.",
     "image": "/static/projects/pixelleven.webp",
     "url": "https://pixelleven.id"
   },
   {
     "title": "Kasheer",
-    "previewDescription": "A product website for F&B point-of-sale and inventory tools.",
+    "previewDescription": "A product website and seller dashboard for an F&B point-of-sale tool.",
     "subtitle": "F&B point-of-sale website",
+    "kind": "Website",
+    "year": "2025",
     "category": "professional",
     "role": "Website Developer",
     "tech": [],
-    "description": "A product website for an F&B point-of-sale platform, presenting transactions, inventory, and multi-outlet operations.",
+    "description": "A product website and seller dashboard for an F&B point-of-sale platform, covering transactions, inventory, and multi-outlet operations.",
     "image": "/static/projects/kasheer.webp",
     "url": "https://kasheer.id"
   },
   {
     "title": "Ground Radar",
+    "previewDescription": "A company website rebuilt in Next.js, with an interactive project map.",
     "subtitle": "GPR company website",
+    "kind": "Website",
     "year": "2025",
     "category": "professional",
     "role": "Frontend Engineer",
@@ -149,7 +160,9 @@ export const projects: Project[] = [
   },
   {
     "title": "Geolitix",
+    "previewDescription": "Company site for cloud-based GPR analysis, built on Next.js and Sanity.",
     "subtitle": "Cloud-based GPR analysis",
+    "kind": "Website",
     "year": "2024",
     "category": "professional",
     "role": "Fullstack Engineer",
@@ -165,13 +178,15 @@ export const projects: Project[] = [
   },
   {
     "title": "YesDok",
+    "previewDescription": "A telemedicine platform with online consultations and real-time video.",
     "subtitle": "Telemedicine platform",
-    "year": "2023",
+    "kind": "Web app",
+    "year": "2022",
     "category": "professional",
-    "role": "Fullstack Developer",
+    "role": "Lead Web Developer",
     "tech": [
       "Nuxt.js",
-      "NestJS",
+      "Hono",
       "TypeScript",
       "WebRTC",
       "LiveKit"
@@ -182,8 +197,9 @@ export const projects: Project[] = [
   },
   {
     "title": "Sign-it",
-    "previewDescription": "Upload, annotate, and sign digital documents online.",
+    "previewDescription": "Digital document signing with PERURI e-Meterai integration.",
     "subtitle": "Digital document signing",
+    "kind": "Web app",
     "year": "2023",
     "category": "professional",
     "role": "Frontend Engineer",
@@ -193,13 +209,15 @@ export const projects: Project[] = [
       "Docker",
       "GCP"
     ],
-    "description": "A digital document-signing platform with tools to upload, annotate, and sign PDFs online.",
+    "description": "A live digital document-signing platform with signing flows, admin dashboards, and PERURI e-Meterai integration.",
     "image": "/static/projects/signit.webp",
     "url": "https://sign-it.id"
   },
   {
     "title": "ASA Indonesia",
+    "previewDescription": "A consultancy website with services, client stories, and an enquiry flow.",
     "subtitle": "Customer-experience consultancy",
+    "kind": "Website",
     "year": "2023",
     "category": "professional",
     "role": "Frontend Engineer",
@@ -216,48 +234,17 @@ export const projects: Project[] = [
 ];
 
 export const experiences: Experience[] = [
-  {
-    position: "Fullstack Developer",
-    company: "PT. Yesdok Indonesia",
-    logo: "/static/yesdok.jpeg",
-    period: "Jan 2022 - Present",
-    type: "fulltime",
-    description:
-      "Led end-to-end development of a telemedicine platform serving thousands of active users monthly. Initiated migration from native WebRTC to a self-hosted LiveKit media server, owned B2B WebView integration with IFG Insurance, and maintained technical ownership through team downsizing from 20 to 7 developers.",
-    tech: ["Nuxt.js", "NestJS", "TypeScript", "WebRTC", "LiveKit", "PostgreSQL"],
-  },
-  {
-    position: "Freelance Fullstack Developer",
-    company: "Various Clients",
-    period: "2023 - Present",
-    type: "freelance",
-    description:
-      "Delivered multiple client projects: rintisan.co.id landing page revamp (Vue 3 → Nuxt, SSR + SEO), billing dashboard migration to TypeScript + TanStack Query, Sign-it for PERURI, Geolitix, GroundRadar website migration, and Daruma B2B.",
-    tech: ["Nuxt.js", "Next.js", "Vue.js", "TypeScript", "Docker", "AWS Amplify"],
-  },
-  {
-    position: "Fullstack Developer",
-    company: "PT. Nashta Global Utama",
-    logo: "/static/nashta.jpg",
-    period: "2020 - 2021",
-    type: "fulltime",
-    description:
-      "Contributed to the Indonesian National Single Window (INSW) under the Ministry of Finance — developed role-based user management for national-scale trade and customs infrastructure. Supported Bea Cukai portal using microfrontend architecture.",
-    tech: ["Vue.js", "Nuxt.js", "Node.js", "Microfrontend"],
-  },
+  { company: "YesDok", role: "Lead Web Developer", period: "2022 — Now", logo: "/static/logos/yesdok.png" },
+  { company: "Rintisan", role: "Fullstack Engineer, contract", period: "2025 — Now", logo: "/static/logos/rintisan.png" },
+  { company: "Freelance", role: "Fullstack Developer", period: "2023 — Now" },
+  { company: "Daruma", role: "Frontend Engineer, contract", period: "2022 — 2023", logo: "/static/logos/daruma.png" },
+  { company: "Nashta Global Utama", role: "Fullstack Developer", period: "2021", logo: "/static/logos/nashta.png" },
 ];
 
-export const education: Education[] = [
-  {
-    degree: "Bachelor of Informatics Engineering (S.T.)",
-    major: "Informatics Engineering",
-    school: "Universitas 17 Agustus Surabaya",
-    period: "2016 - 2020",
-  },
-  {
-    degree: "Full Stack Developer Bootcamp",
-    major: "Full Stack Development",
-    school: "Arkademy Tech Education Platform",
-    period: "2020",
-  },
-];
+export const contact = {
+  email: "ivanrozack@gmail.com",
+  whatsapp: "https://wa.me/6281234136030",
+  linkedin: "https://www.linkedin.com/in/ivan-rozak/",
+  github: "https://github.com/ivanrozak/",
+  resumePdf: "/Ivan_Rozak_CV.pdf",
+};
