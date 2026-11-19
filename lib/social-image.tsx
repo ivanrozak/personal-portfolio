@@ -23,9 +23,9 @@ export async function renderSocialImage(height: 600 | 630) {
           <div style={{ display: "flex", fontFamily: "Geist Mono", fontSize: 16, letterSpacing: 2, color: "#8f8f8f" }}>JAKARTA, ID · GMT+7</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1, padding: "0 48px", gap: 28 }}>
-          <div style={{ display: "flex", flexDirection: "column", fontSize: 76, fontWeight: 500, lineHeight: 1.04, letterSpacing: -3 }}>
+          <div style={{ display: "flex", flexDirection: "column", fontSize: 66, fontWeight: 500, lineHeight: 1.06, letterSpacing: -2.6 }}>
             <div style={{ display: "flex" }}>Hi, I’m Ivan.</div>
-            <div style={{ display: "flex", color: "#8f8f8f" }}>I turn ideas into working software.</div>
+            <div style={{ display: "flex", color: "#8f8f8f" }}>I like building useful software.</div>
           </div>
           <div style={{ display: "flex", fontSize: 24, lineHeight: 1.5, color: "#8f8f8f" }}>Software engineer · Web, mobile, desktop, and real-time video</div>
         </div>

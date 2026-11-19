@@ -13,7 +13,7 @@ test("homepage shows the hero, selected work, experience, and contact", async ({
   await page.goto("/");
   const heading = page.getByRole("heading", { level: 1 });
   await expect(heading).toContainText("Hi, I’m Ivan.");
-  await expect(heading).toContainText("I turn ideas into working software.");
+  await expect(heading).toContainText("I like building useful software.");
   await expect(page.getByText("Jakarta, ID · GMT+7")).toBeVisible();
   await expect(page.getByText(/\d{2}:\d{2}/).first()).toBeVisible();
   for (const label of ["LinkedIn", "GitHub", "Email", "Resume (PDF)"]) await expect(page.locator(".hero").getByRole("link", { name: label, exact: true })).toBeVisible();
@@ -25,7 +25,6 @@ test("homepage shows the hero, selected work, experience, and contact", async ({
   await expect(page.locator("#experience")).toContainText("Lead Web Developer");
   await expect(page.locator("#contact")).toBeVisible();
   await expect(page.getByRole("link", { name: "WhatsApp" })).toHaveAttribute("href", "https://wa.me/6281234136030");
-  await expect(page.locator("html")).toHaveClass(/lenis/);
   expect(await fitsViewport(page)).toBe(true);
   await page.getByRole("link", { name: "All projects" }).click();
   await expect(page).toHaveURL(/\/projects$/);
@@ -143,7 +142,6 @@ test("project enquiry dialog validates, prepares a complete email brief, and res
   const dialog = page.getByRole("dialog", { name: "Let’s build something." });
   await expect(dialog).toBeVisible();
   await expect(page.locator("html")).toHaveCSS("overflow", "hidden");
-  await expect(page.locator("html")).toHaveClass(/lenis-stopped/);
   await dialog.getByRole("button", { name: "Continue in email" }).click();
   await expect(dialog.locator("input:invalid")).not.toHaveCount(0);
   await dialog.getByLabel("Your name", { exact: true }).fill("Alex Morgan");
@@ -160,7 +158,6 @@ test("project enquiry dialog validates, prepares a complete email brief, and res
   await dialog.getByRole("button", { name: "Close project enquiry" }).click();
   await expect(dialog).not.toBeVisible();
   await expect(trigger).toBeFocused();
-  await expect(page.locator("html")).not.toHaveClass(/lenis-stopped/);
   await trigger.click();
   await expect(dialog.getByLabel("Your name", { exact: true })).toHaveValue("Alex Morgan");
   await page.keyboard.press("Escape");
@@ -178,6 +175,18 @@ test("sitemap, robots, and structured data are published", async ({ page }) => {
   expect(schema.jobTitle).toBe("Software Engineer");
 });
 
+test("favicon set and manifest icons are linked and served", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('link[rel="icon"][type="image/svg+xml"]')).toHaveAttribute("href", /\/favicon\.svg/);
+  const links = await page.locator('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]').evaluateAll(nodes => nodes.map(node => node.getAttribute("href")!));
+  const manifest = await (await page.request.get("/manifest.webmanifest")).json();
+  for (const href of [...links, ...manifest.icons.map((icon: { src: string }) => icon.src)]) {
+    const response = await page.request.get(href);
+    expect(response.ok(), href).toBe(true);
+    expect(response.headers()["content-type"], href).toMatch(/image\/(svg\+xml|png|x-icon|vnd\.microsoft\.icon)/);
+  }
+});
+
 test("Open Graph and Twitter cards use real landscape images and correct page metadata", async ({ page, isMobile }) => {
   test.skip(isMobile);
   for (const route of ["/", "/projects", "/resume"]) {
@@ -185,8 +194,8 @@ test("Open Graph and Twitter cards use real landscape images and correct page me
     const crawlerResponse = await page.request.get(route, { headers: { "user-agent": "WhatsApp/2.24" } });
     expect(crawlerResponse.ok()).toBe(true);
     const html = await crawlerResponse.text();
-    expect(html).toContain('property="og:image" content="https://ivanrozak.com/social/portfolio-og-v3.png"');
-    expect(html).toContain('name="twitter:image" content="https://ivanrozak.com/social/portfolio-twitter-v3.png"');
+    expect(html).toContain('property="og:image" content="https://ivanrozak.com/social/portfolio-og-v4.png"');
+    expect(html).toContain('name="twitter:image" content="https://ivanrozak.com/social/portfolio-twitter-v4.png"');
     await page.goto(route);
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
     await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
@@ -195,8 +204,8 @@ test("Open Graph and Twitter cards use real landscape images and correct page me
     expect(new URL(canonical!).pathname).toBe(route);
     expect(new URL(canonical!).origin).toBe("https://ivanrozak.com");
     for (const [selector, pathname, height] of [
-      ['meta[property="og:image"]', "/social/portfolio-og-v3.png", 630],
-      ['meta[name="twitter:image"]', "/social/portfolio-twitter-v3.png", 600],
+      ['meta[property="og:image"]', "/social/portfolio-og-v4.png", 630],
+      ['meta[name="twitter:image"]', "/social/portfolio-twitter-v4.png", 600],
     ] as const) {
       const url = new URL((await page.locator(selector).getAttribute("content"))!);
       expect(url.pathname).toBe(pathname);

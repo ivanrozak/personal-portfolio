@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import "lenis/dist/lenis.css";
 import "./globals.scss";
 import Provider from "./provider";
 import NavigationBar from "@/component/NavigationBar";
@@ -20,12 +19,12 @@ export const metadata: Metadata = {
     "Software engineer from Jakarta, 5+ years in. Web, mobile, desktop, and real-time video, from the first screen to the server.",
   icons: {
     icon: [
-      { url: "/main_icon.webp?v=ir", type: "image/webp", sizes: "1024x1024" },
-      { url: "/favicon-32x32.png?v=ir", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16x16.png?v=ir", type: "image/png", sizes: "16x16" },
+      { url: "/favicon.svg?v=i", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png?v=i", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png?v=i", type: "image/png", sizes: "16x16" },
     ],
-    shortcut: "/favicon.ico?v=ir",
-    apple: [{ url: "/apple-touch-icon.png?v=ir", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.ico?v=i",
+    apple: [{ url: "/apple-touch-icon.png?v=i", sizes: "180x180", type: "image/png" }],
   },
   openGraph: openGraphDefaults,
   twitter: twitterDefaults,

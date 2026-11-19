@@ -15,7 +15,7 @@ export function InquiryButton({ children, className = "", onOpen }: { children: 
   return <button type="button" className={className} aria-haspopup="dialog" onClick={event => { event.currentTarget.focus({ preventScroll: true }); onOpen?.(); open?.(); }}>{children}</button>;
 }
 
-export function ProjectInquiryProvider({ children, onOpenChange }: { children: React.ReactNode; onOpenChange: (open: boolean) => void }) {
+export function ProjectInquiryProvider({ children }: { children: React.ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const [open, setOpen] = useState(false);
@@ -30,10 +30,9 @@ export function ProjectInquiryProvider({ children, onOpenChange }: { children: R
     if (!open) return;
     const previous = document.documentElement.style.overflow;
     document.documentElement.style.overflow = "hidden";
-    onOpenChange(true);
     const controls = animate(scope.current, { opacity: [0, 1], y: [reduced ? 0 : 20, 0], scale: [reduced ? 1 : 0.98, 1] }, { duration: reduced ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] });
-    return () => { controls.stop(); document.documentElement.style.overflow = previous; onOpenChange(false); };
-  }, [open, animate, scope, reduced, onOpenChange]);
+    return () => { controls.stop(); document.documentElement.style.overflow = previous; };
+  }, [open, animate, scope, reduced]);
 
   const show = () => {
     if (dialog.current?.open) return;
@@ -62,7 +61,7 @@ export function ProjectInquiryProvider({ children, onOpenChange }: { children: R
       const bounds = event.currentTarget.getBoundingClientRect();
       if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) void close();
     }}>
-      <div ref={scope} className="inquiry-content" data-lenis-prevent>
+      <div ref={scope} className="inquiry-content">
         <div className="inquiry-heading"><h2 id={`${id}-title`}>Let’s build something.</h2><button type="button" className="inquiry-close" aria-label="Close project enquiry" onClick={() => void close()}><X size={22} /></button></div>
         <p id={`${id}-description`} className="inquiry-introduction">Tell me a little about your project. A rough idea is a good place to start.</p>
         <form className="inquiry-form" onChange={() => { setDraft(null); setCopyState("idle"); }} onSubmit={event => {
