@@ -55,10 +55,10 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: revealBootScript }} />
         {/* Privacy-friendly analytics by Plausible */}
-        <Script async src="https://plausible.ivanrozak.com/js/pa-CBl63VHjz5iwVsKRDpNyE.js" strategy="afterInteractive" />
+        <Script async src="/stats/s.js" strategy="afterInteractive" />
         <Script id="plausible-init" strategy="afterInteractive">
           {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-plausible.init()`}
+plausible.init({endpoint:"/stats/e"})`}
         </Script>
       </head>
       <body className={`${GeistSans.className} ${GeistSans.variable} ${GeistMono.variable}`}>
