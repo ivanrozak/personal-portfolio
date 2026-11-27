@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.scss";
@@ -51,7 +52,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head><script dangerouslySetInnerHTML={{ __html: revealBootScript }} /></head>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: revealBootScript }} />
+        {/* Privacy-friendly analytics by Plausible */}
+        <Script async src="https://plausible.ivanrozak.com/js/pa-CBl63VHjz5iwVsKRDpNyE.js" strategy="afterInteractive" />
+        <Script id="plausible-init" strategy="afterInteractive">
+          {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()`}
+        </Script>
+      </head>
       <body className={`${GeistSans.className} ${GeistSans.variable} ${GeistMono.variable}`}>
         <Provider>
           <a className="skip-link" href="#main-content">Skip to content</a>
